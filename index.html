@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana de Provas · Revisão 3º Tri — 9º Ano</title>
+<style>
+  :root{
+    --navy:#14213d; --navy-2:#1d2f52; --ink:#22283a;
+    --gold:#cdab5a; --gold-2:#b8963e;
+    --cream:#faf6ea; --paper:#fffdf7; --line:#e7dfc9;
+    --port:#c1533f; --hist:#a06a2c; --geo:#2f6b5e; --cien:#6b4f9e; --mat:#2b5a8c;
+    --ok:#2f7d54; --no:#bb4032;
+    --shadow:0 10px 30px rgba(20,33,61,.10);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:'DM Sans','Segoe UI',system-ui,sans-serif;
+    background:var(--cream); color:var(--ink); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif}
+  button{font-family:inherit; cursor:pointer}
+  :focus-visible{outline:3px solid var(--gold); outline-offset:2px; border-radius:6px}
+
+  /* ---------- HEADER / HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(205,171,90,.18), transparent 55%),
+      linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#f6f1e2; padding:22px 20px 20px;
+  }
+  .hero-inner{max-width:960px; margin:0 auto}
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+  .eyebrow{
+    font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--gold); font-weight:700; margin:0 0 6px;
+  }
+  .hero h1{font-size:clamp(24px,5.2vw,38px); margin:0; line-height:1.06; letter-spacing:-.01em}
+  .hero .sub{margin:8px 0 0; color:#d7cfba; max-width:52ch; font-size:15px}
+  .reset-btn{
+    flex:0 0 auto; background:rgba(255,255,255,.08); color:#e7dfc9; border:1px solid rgba(205,171,90,.35);
+    border-radius:99px; padding:8px 14px; font-size:12.5px; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+    transition:.2s;
+  }
+  .reset-btn:hover{background:rgba(187,64,50,.25); border-color:#bb4032; color:#fff}
+
+  /* level + streak strip */
+  .status{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:16px}
+  .level-card{
+    display:flex; align-items:center; gap:11px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(205,171,90,.3); border-radius:14px; padding:10px 14px; flex:1 1 240px; min-width:220px;
+  }
+  .level-emb{font-size:30px; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+  .level-meta{flex:1}
+  .level-rank{font-family:Georgia,serif; font-size:16px; color:#f4efe1; font-weight:700}
+  .level-sub{font-size:11.5px; color:#c9c1ac; margin-top:1px}
+  .level-track{height:7px; border-radius:99px; background:rgba(255,255,255,.14); overflow:hidden; margin-top:6px}
+  .level-track > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),#f2dd97); transition:width .6s ease}
+  .streak-card{
+    display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(205,171,90,.3); border-radius:14px; padding:10px 15px;
+  }
+  .streak-flame{font-size:24px; transition:transform .2s}
+  .streak-flame.pulse{transform:scale(1.35)}
+  .streak-num{font-family:Georgia,serif; font-size:22px; font-weight:700; color:var(--gold)}
+  .streak-lbl{font-size:11px; color:#c9c1ac; letter-spacing:.05em; line-height:1.2}
+
+  .week{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:16px}
+  .day{
+    background:rgba(255,255,255,.06); border:1px solid rgba(205,171,90,.28);
+    border-radius:12px; padding:10px 8px; text-align:center; cursor:pointer; position:relative;
+    transition:transform .15s ease, background .2s ease, border-color .2s;
+  }
+  .day:hover{transform:translateY(-3px); background:rgba(255,255,255,.12)}
+  .day .dow{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:700}
+  .day .dt{font-size:12px; color:#cfc7b2; margin:2px 0 6px}
+  .day .em{font-size:22px; line-height:1}
+  .day .nm{font-size:12.5px; margin-top:5px; font-weight:600; color:#f2ecdc}
+  .day .mini{height:4px; border-radius:99px; background:rgba(255,255,255,.14); margin-top:8px; overflow:hidden}
+  .day .mini > i{display:block; height:100%; width:0; background:var(--gold); transition:width .5s ease}
+  .day .medal{position:absolute; top:-8px; right:-6px; font-size:20px; display:none; filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+  .day.master .medal{display:block; animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+  /* ---------- LAYOUT ---------- */
+  main{max-width:960px; margin:0 auto; padding:24px 16px 60px}
+  .section-title{
+    font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-2);
+    font-weight:700; margin:8px 0 14px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after{content:""; flex:1; height:1px; background:var(--line)}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px}
+  .card{
+    background:var(--paper); border:1px solid var(--line); border-radius:16px;
+    padding:16px 16px 14px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+    display:flex; flex-direction:column; gap:10px; cursor:pointer;
+    transition:transform .15s ease, box-shadow .2s;
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:0 16px 34px rgba(20,33,61,.16)}
+  .card.master{border-color:var(--gold); box-shadow:0 0 0 2px rgba(205,171,90,.35), var(--shadow)}
+  .card .stripe{position:absolute; inset:0 auto 0 0; width:6px; background:var(--acc)}
+  .card .top{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .card .badge{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acc); background:color-mix(in srgb,var(--acc) 12%,white); padding:4px 9px; border-radius:99px}
+  .card .em{font-size:30px}
+  .card .medal{position:absolute; top:12px; right:14px; font-size:24px; display:none; filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+  .card.master .medal{display:block; animation:pop .5s ease}
+  .card.master .em{display:none}
+  .card h3{margin:0; font-size:20px; color:var(--navy)}
+  .card .desc{margin:0; font-size:13px; color:#5c6070; min-height:34px}
+  .ring-row{display:flex; align-items:center; justify-content:space-between; margin-top:2px}
+  .ring{--p:0; width:46px; height:46px; border-radius:50%; display:grid; place-items:center;
+    background:conic-gradient(var(--acc) calc(var(--p)*1%), #eee 0); font-size:12px; font-weight:700; color:var(--navy)}
+  .ring span{background:var(--paper); width:34px; height:34px; border-radius:50%; display:grid; place-items:center}
+  .go{font-size:13px; font-weight:700; color:var(--acc)}
+
+  /* ---------- SUBJECT VIEW ---------- */
+  .subject{display:none}
+  .subject.active{display:block; animation:fade .3s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+  .backbar{display:flex; align-items:center; gap:12px; margin-bottom:8px}
+  .back{background:none; border:1px solid var(--line); color:var(--navy); border-radius:99px;
+    padding:7px 14px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px}
+  .back:hover{background:#fff}
+  .subj-head{display:flex; align-items:center; gap:14px; margin:4px 0 14px}
+  .subj-head .em{font-size:40px}
+  .subj-head h2{margin:0; font-size:clamp(24px,5vw,32px); color:var(--navy)}
+  .subj-head .u{font-size:13px; color:#6a6e7c; font-weight:600; letter-spacing:.04em}
+
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:2px}
+  .tab{background:none; border:none; padding:9px 14px; font-size:14px; font-weight:600; color:#7b7f8c;
+    border-radius:10px 10px 0 0; position:relative}
+  .tab.on{color:var(--accV)}
+  .tab.on::after{content:""; position:absolute; left:10px; right:10px; bottom:-3px; height:3px; background:var(--accV); border-radius:3px}
+  .tab .tick{color:var(--ok); margin-left:4px; font-weight:700}
+  .pane{display:none}
+  .pane.on{display:block; animation:fade .25s ease}
+
+  .note{background:var(--paper); border:1px solid var(--line); border-left:4px solid var(--accV);
+    border-radius:12px; padding:16px 18px; margin:0 0 14px; box-shadow:var(--shadow)}
+  .note h4{margin:0 0 6px; font-size:17px; color:var(--navy); font-family:Georgia,serif}
+  .note p{margin:0 0 8px; font-size:14.5px; color:#3c414f}
+  .note p:last-child{margin-bottom:0}
+  .key{background:color-mix(in srgb,var(--accV) 16%,transparent); color:var(--navy); font-weight:600;
+    padding:0 4px; border-radius:4px}
+
+  .q{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow)}
+  .q .qn{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accV)}
+  .q .qt{font-size:15.5px; font-weight:600; color:var(--navy); margin:5px 0 12px}
+  .opts{display:grid; gap:8px}
+  .opt{text-align:left; background:#fff; border:1.5px solid var(--line); border-radius:10px;
+    padding:11px 13px; font-size:14.5px; color:#2f3442; display:flex; gap:10px; align-items:flex-start; transition:.15s}
+  .opt:hover:not(:disabled){border-color:var(--accV); background:color-mix(in srgb,var(--accV) 6%,white)}
+  .opt .l{font-weight:700; color:var(--accV); flex:0 0 auto}
+  .opt.correct{border-color:var(--ok); background:#eaf6ee}
+  .opt.correct .l{color:var(--ok)}
+  .opt.wrong{border-color:var(--no); background:#fbecea}
+  .opt.wrong .l{color:var(--no)}
+  .opt:disabled{cursor:default}
+  .explain{margin-top:11px; font-size:14px; padding:11px 13px; border-radius:10px;
+    background:color-mix(in srgb,var(--accV) 8%,white); border:1px dashed color-mix(in srgb,var(--accV) 40%,var(--line)); display:none}
+  .explain.show{display:block}
+  .explain b{color:var(--navy)}
+  .scorebar{background:var(--paper); border:1px dashed var(--accV); border-radius:12px; padding:12px 15px;
+    font-size:14px; color:var(--navy); font-weight:600; margin-bottom:14px; display:flex; align-items:center; gap:8px}
+
+  .match-help{font-size:13.5px; color:#6a6e7c; margin:0 0 12px}
+  .match{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .col h4{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accV); margin:0 0 8px}
+  .chip{width:100%; text-align:left; background:var(--paper); border:1.5px solid var(--line);
+    border-radius:10px; padding:11px 12px; margin-bottom:8px; font-size:14px; color:#2f3442; transition:.15s; box-shadow:var(--shadow)}
+  .chip:hover:not(:disabled){border-color:var(--accV)}
+  .chip.sel{border-color:var(--accV); background:color-mix(in srgb,var(--accV) 10%,white); transform:scale(1.01)}
+  .chip.done{border-color:var(--ok); background:#eaf6ee; color:#2b5b3e; cursor:default}
+  .chip.done::before{content:"✓ "; color:var(--ok); font-weight:700}
+  .chip.miss{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+  .ex{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow)}
+  .ex .en{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accV)}
+  .ex .et{font-size:15px; color:var(--navy); font-weight:600; margin:5px 0 10px}
+  .ex .et em{font-style:normal; background:#f3eede; padding:1px 5px; border-radius:5px; font-family:Georgia,serif}
+  .ans-label{font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:#8a8e9a; font-weight:700; margin:2px 0 5px}
+  .ans-field{width:100%; min-height:64px; resize:vertical; border:1.5px solid var(--line); border-radius:10px;
+    padding:10px 12px; font-family:inherit; font-size:14.5px; color:#2f3442; background:#fffef9; line-height:1.5}
+  .ans-field:focus{border-color:var(--accV); outline:none; box-shadow:0 0 0 3px color-mix(in srgb,var(--accV) 18%,transparent)}
+  .ans-saved{font-size:11.5px; color:var(--ok); font-weight:600; opacity:0; transition:.3s; margin-left:8px}
+  .ans-saved.show{opacity:1}
+  .ex-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px}
+  .reveal{background:var(--navy); color:#f4efe1; border:none; border-radius:99px; padding:8px 16px; font-size:13px; font-weight:600}
+  .reveal:hover{background:var(--navy-2)}
+  .sol{display:none; margin-top:12px; padding:13px 15px; border-radius:10px; background:#f7f2e6; border:1px solid var(--line); font-size:14.5px; color:#39404e}
+  .sol.show{display:block}
+  .sol .step{margin:0 0 7px}
+  .sol .step:last-child{margin-bottom:0}
+  .sol b{color:var(--navy)}
+  .sol .ans{margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); font-weight:600; color:var(--ok)}
+  .selfcheck{display:none; gap:8px; margin-top:11px; align-items:center; flex-wrap:wrap}
+  .selfcheck.show{display:flex}
+  .selfcheck .lbl{font-size:13px; color:#6a6e7c; font-weight:600}
+  .sc-btn{border:1.5px solid var(--line); background:#fff; border-radius:99px; padding:7px 14px; font-size:13px; font-weight:600; color:#2f3442; transition:.15s}
+  .sc-btn.good:hover{border-color:var(--ok); background:#eaf6ee; color:var(--ok)}
+  .sc-btn.soso:hover{border-color:var(--gold-2); background:#fbf4e2; color:var(--gold-2)}
+  .sc-btn.picked{pointer-events:none; opacity:.6}
+
+  .done-flag{margin-top:6px; text-align:center; padding:14px; border-radius:12px;
+    background:color-mix(in srgb,var(--accV) 10%,white); border:1px dashed var(--accV); color:var(--navy); font-weight:600; display:none}
+  .done-flag.show{display:block}
+  .medal-banner{display:none; text-align:center; margin:0 0 16px; padding:16px; border-radius:14px;
+    background:linear-gradient(135deg,#fbf4dd,#f6ead0); border:1px solid var(--gold); color:var(--navy); box-shadow:var(--shadow)}
+  .medal-banner.show{display:block; animation:pop .5s ease}
+  .medal-banner .big{font-size:40px}
+  .medal-banner .t{font-family:Georgia,serif; font-size:19px; font-weight:700; margin-top:4px}
+  .medal-banner .s{font-size:13.5px; color:#6a6e7c; margin-top:2px}
+
+  footer{max-width:960px; margin:0 auto; padding:0 16px 40px; color:#8a8e9a; font-size:12.5px; text-align:center}
+  .toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--navy); color:#f4efe1; padding:11px 18px; border-radius:99px; font-size:14px; font-weight:600;
+    box-shadow:0 10px 30px rgba(0,0,0,.25); opacity:0; transition:.3s; pointer-events:none; z-index:50}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .toast.xp{background:linear-gradient(120deg,var(--gold-2),var(--gold)); color:#20200f}
+
+  /* confetti */
+  .confetti{position:fixed; top:-12px; width:9px; height:14px; z-index:60; pointer-events:none; border-radius:2px; will-change:transform}
+
+  /* modal */
+  .modal-bg{position:fixed; inset:0; background:rgba(20,33,61,.55); display:none; align-items:center; justify-content:center; z-index:80; padding:20px}
+  .modal-bg.show{display:flex; animation:fade .2s ease}
+  .modal{background:var(--paper); border-radius:16px; padding:22px 22px 18px; max-width:360px; box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .modal h3{margin:0 0 8px; color:var(--navy); font-size:19px}
+  .modal p{margin:0 0 16px; font-size:14px; color:#5c6070}
+  .modal-row{display:flex; gap:10px; justify-content:flex-end}
+  .mbtn{border:none; border-radius:99px; padding:9px 16px; font-size:13.5px; font-weight:600}
+  .mbtn.ghost{background:#efe9d8; color:var(--navy)}
+  .mbtn.danger{background:var(--no); color:#fff}
+
+  @media(max-width:620px){
+    .week{grid-template-columns:repeat(5,1fr); gap:5px}
+    .day{padding:8px 4px}
+    .day .nm{font-size:10.5px}
+    .day .em{font-size:18px}
+    .match{grid-template-columns:1fr}
+    .col.defs{margin-top:4px}
+    .hero-top{flex-direction:column}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">Escola Projeto Lápis de Cor · 9º Ano</p>
+        <h1>Semana de Provas — 3º Trimestre</h1>
+        <p class="sub">1ª Avaliação (P1) · 14 a 16 de outubro. Revise, responda no app e ganhe XP, sequências e medalhas.</p>
+      </div>
+      <button class="reset-btn" id="btnReset">↺ Recomeçar</button>
+    </div>
+
+    <div class="status">
+      <div class="level-card">
+        <div class="level-emb" id="lvlEmb">🌱</div>
+        <div class="level-meta">
+          <div class="level-rank" id="lvlRank">Iniciante</div>
+          <div class="level-sub" id="lvlSub">0 XP · próxima patente em 100</div>
+          <div class="level-track"><i id="lvlFill"></i></div>
+        </div>
+      </div>
+      <div class="streak-card">
+        <span class="streak-flame" id="flame">🔥</span>
+        <div><div class="streak-num" id="streakNum">0</div><div class="streak-lbl">sequência<br>de acertos</div></div>
+      </div>
+    </div>
+
+    <div class="week" id="week"></div>
+  </div>
+</header>
+
+<main>
+  <section id="home">
+    <div class="section-title">Escolha a matéria</div>
+    <div class="cards" id="cards"></div>
+  </section>
+  <section id="subjectView"></section>
+</main>
+
+<footer>
+  Feito para revisar em casa · responda no próprio app, confira as resoluções e complete as 4 atividades de cada matéria para ganhar a medalha 🥇
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>Recomeçar do zero?</h3>
+    <p>Isso apaga todo o seu progresso, o XP, as medalhas e as respostas que você escreveu. Não dá para desfazer.</p>
+    <div class="modal-row">
+      <button class="mbtn ghost" id="mCancel">Cancelar</button>
+      <button class="mbtn danger" id="mConfirm">Sim, apagar tudo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var SUBJECTS = [
+  /* ---------------- PORTUGUÊS ---------------- */
+  {
+    id:"port", nome:"Língua Portuguesa", em:"📖", acc:"var(--port)", dow:"Qua", dt:"14/10",
+    desc:"Crônica de humor e orações subordinadas adverbiais (os 9 tipos).",
+    resumo:[
+      {t:"O que é uma crônica", h:[
+        "A <k>crônica</k> é um texto curto que fica entre o <b>jornalismo</b> e a <b>literatura</b>. Ela nasce de um fato do <b>cotidiano</b> — uma cena na rua, uma conversa, uma notícia, uma situação em família — e o transforma em reflexão, emoção ou humor.",
+        "Foi tradicionalmente publicada em <b>jornais e revistas</b> e hoje aparece muito em sites e blogs. Depois, muitas crônicas são reunidas em livros.",
+        "<b>Características</b>: linguagem leve e próxima da conversa, às vezes informal; olhar pessoal do cronista sobre o assunto; poucos personagens; tempo e espaço reduzidos; e um tom que pode ser reflexivo, poético, crítico ou engraçado.",
+        "Grandes cronistas brasileiros: Rubem Braga, Fernando Sabino, Luis Fernando Verissimo, Stanislaw Ponte Preta, Carlos Drummond de Andrade, Clarice Lispector, Moacyr Scliar e Antonio Prata."
+      ]},
+      {t:"A crônica de humor", h:[
+        "A <k>crônica de humor</k> tem como objetivo principal <b>provocar o riso</b>. Muitas vezes, porém, por trás da graça existe uma <b>crítica</b> a comportamentos, costumes, manias ou problemas da sociedade.",
+        "O narrador pode estar em <b>1ª pessoa</b> (participa da história) ou em <b>3ª pessoa</b> (observa e conta). São comuns os <b>diálogos</b> rápidos, que dão ritmo e graça ao texto.",
+        "Luis Fernando Verissimo é um dos mestres do gênero: em suas crônicas, situações banais do dia a dia (um jantar, uma briga de casal, uma reunião de condomínio) se tornam engraçadas pelo exagero e pela quebra de expectativa."
+      ]},
+      {t:"Recursos de humor", h:[
+        "<b>Exagero (hipérbole)</b>: aumentar uma situação até ela ficar absurda. Ex.: <i>Esperei tanto na fila que meu cabelo ficou branco.</i>",
+        "<k>Ironia</k>: dizer o contrário do que se pensa, para criticar ou fazer graça. Ex.: <i>Que ótimo! Choveu justamente no dia do piquenique.</i>",
+        "<b>Ambiguidade e duplo sentido</b>: palavras ou frases que podem ser entendidas de duas formas, gerando confusão engraçada.",
+        "<k>Quebra de expectativa</k>: o texto leva o leitor a esperar uma coisa e, no final, acontece outra, surpreendente. Muitas crônicas de humor dependem do <b>desfecho inesperado</b>.",
+        "Também são usados: situações absurdas ou inusitadas, comparações engraçadas, linguagem coloquial e jogos de palavras."
+      ]},
+      {t:"Como interpretar uma crônica de humor", h:[
+        "1) Identifique o <b>fato do cotidiano</b> que deu origem ao texto.",
+        "2) Descubra <b>o que provoca o riso</b>: exagero, ironia, mal-entendido, final surpreendente?",
+        "3) Pergunte-se <b>o que está sendo criticado</b>: um comportamento, um costume, uma situação social?",
+        "4) Observe o <b>narrador</b> (1ª ou 3ª pessoa), a linguagem (formal ou informal) e o efeito do <b>desfecho</b>.",
+        "Lembre: rir não é o único objetivo. A boa crônica de humor faz o leitor <b>pensar</b> sobre a vida e sobre si mesmo."
+      ]},
+      {t:"Orações subordinadas adverbiais", h:[
+        "No <b>período composto por subordinação</b>, uma oração (a <b>subordinada</b>) depende de outra (a <b>principal</b>) e exerce uma função dentro dela.",
+        "A <k>oração subordinada adverbial</k> funciona como um <b>adjunto adverbial</b> da oração principal: indica uma <b>circunstância</b> (tempo, causa, condição, finalidade etc.). Ela é introduzida por uma <b>conjunção subordinativa adverbial</b>.",
+        "Ex.: <i><u>Quando o sinal tocou</u>, os alunos saíram.</i> → a oração destacada indica <b>tempo</b>. Compare com um advérbio: <i><u>Depois</u>, os alunos saíram.</i>",
+        "<b>Pontuação</b>: quando a oração adverbial vem <b>antes</b> da principal, separe com <b>vírgula</b>. Ex.: <i>Se chover, ficaremos em casa.</i> Depois da principal, a vírgula costuma ser opcional.",
+        "Elas podem ser <b>desenvolvidas</b> (com conjunção e verbo conjugado: <i>Quando cheguei, ...</i>) ou <b>reduzidas</b> (com verbo no infinitivo, gerúndio ou particípio: <i>Ao chegar, ...</i> / <i>Chegando, ...</i>)."
+      ]},
+      {t:"Tipos de adverbiais (1): causa, consequência, condição", h:[
+        "<k>Causais</k> — indicam a <b>causa</b>: <i>porque, como</i> (no início da frase), <i>já que, visto que, uma vez que</i>. Ex.: <i><u>Como chovia muito</u>, o jogo foi adiado.</i> / <i>Faltei <u>porque estava doente</u>.</i>",
+        "<k>Consecutivas</k> — indicam a <b>consequência</b>: <i>que</i> (depois de <i>tão, tanto, tal, tamanho</i>), <i>de modo que, de forma que</i>. Ex.: <i>Estudou <u>tanto</u> <u>que passou em primeiro lugar</u>.</i>",
+        "<k>Condicionais</k> — indicam uma <b>condição</b>: <i>se, caso, desde que, contanto que</i>. Ex.: <i><u>Se você estudar</u>, irá bem na prova.</i> / <i><u>Caso chova</u>, leve o guarda-chuva.</i>"
+      ]},
+      {t:"Tipos de adverbiais (2): concessão, comparação, conformidade", h:[
+        "<k>Concessivas</k> — indicam um fato contrário que <b>não impede</b> o que se diz na principal: <i>embora, ainda que, mesmo que, apesar de que, se bem que</i>. Ex.: <i><u>Embora estivesse cansado</u>, foi à aula.</i>",
+        "<k>Comparativas</k> — estabelecem uma <b>comparação</b>: <i>como, assim como, (tão)... quanto, mais... (do) que, menos... (do) que</i>. Ex.: <i>Ele corre mais <u>do que o irmão</u>.</i> (o verbo “corre” fica subentendido).",
+        "<k>Conformativas</k> — indicam <b>conformidade</b>, acordo: <i>conforme, como, segundo, consoante</i>. Ex.: <i>Fiz a tarefa <u>conforme a professora pediu</u>.</i>"
+      ]},
+      {t:"Tipos de adverbiais (3): finalidade, proporção, tempo", h:[
+        "<k>Finais</k> — indicam a <b>finalidade</b>, o objetivo: <i>para que, a fim de que, que</i>. Ex.: <i>Estudo todos os dias <u>para que possa ir bem na prova</u>.</i>",
+        "<k>Proporcionais</k> — indicam <b>proporção</b>, fatos que variam juntos: <i>à medida que, à proporção que, quanto mais... mais</i>. Ex.: <i><u>À medida que o tempo passava</u>, a ansiedade aumentava.</i>",
+        "<k>Temporais</k> — indicam <b>tempo</b>: <i>quando, enquanto, logo que, assim que, depois que, antes que, sempre que</i>. Ex.: <i><u>Assim que cheguei</u>, liguei para minha mãe.</i>"
+      ]},
+      {t:"Dicas para não confundir", h:[
+        "<b>Causa x consequência</b>: em <i>Passou <u>porque estudou</u></i>, a oração indica a <b>causa</b> (causal). Em <i>Estudou tanto <u>que passou</u></i>, indica a <b>consequência</b> (consecutiva). Procure o <i>tão/tanto/tal</i> antes do <i>que</i>.",
+        "<b>Concessiva x adversativa</b>: <i><u>Embora chovesse</u>, saímos</i> (subordinada adverbial concessiva) tem o mesmo sentido de <i>Chovia, <u>mas saímos</u></i> (coordenada adversativa). Muda a estrutura, não a ideia de oposição.",
+        "<b>A conjunção “como”</b> tem vários sentidos: <b>causa</b> (no início: <i>Como estava frio, fiquei em casa.</i>), <b>comparação</b> (<i>Ela canta como um passarinho.</i>) e <b>conformidade</b> (<i>Fiz como você mandou.</i>).",
+        "Na dúvida, troque a conjunção por outra do mesmo grupo e veja se o sentido continua igual: <i>Como chovia</i> = <i>Já que chovia</i> → causal."
+      ]}
+    ],
+    quiz:[
+      {q:"Qual é uma característica da crônica?", o:["É sempre um texto longo e técnico","Parte de um fato do cotidiano e tem linguagem leve","Não tem narrador","É escrita apenas em versos"], a:1,
+       e:"A crônica é um texto curto, que parte do cotidiano e usa linguagem leve, próxima da conversa."},
+      {q:"Na frase “Que maravilha! Perdi o ônibus de novo”, o recurso de humor usado é:", o:["Comparação","Ironia","Onomatopeia","Rima"], a:1,
+       e:"Diz-se o contrário do que se pensa (perder o ônibus não é uma maravilha): é ironia."},
+      {q:"Em “Embora estivesse com sono, terminou a lição”, a oração destacada é adverbial:", o:["Causal","Concessiva","Condicional","Temporal"], a:1,
+       e:"“Embora” indica um fato contrário que não impede a ação principal: concessiva."},
+      {q:"Em “Se você chegar cedo, pegaremos bons lugares”, a oração subordinada indica:", o:["Condição","Finalidade","Tempo","Comparação"], a:0,
+       e:"“Se” introduz uma condição: oração subordinada adverbial condicional."},
+      {q:"Em “Ele riu tanto que ficou com dor na barriga”, a segunda oração é adverbial:", o:["Causal","Comparativa","Consecutiva","Final"], a:2,
+       e:"“Tanto... que” indica a consequência de rir muito: consecutiva."}
+    ],
+    match:[
+      {t:"Crônica de humor", d:"Texto curto do cotidiano que busca o riso e, às vezes, a crítica"},
+      {t:"Ironia", d:"Dizer o contrário do que se pensa"},
+      {t:"Concessiva", d:"Fato contrário que não impede a ação (embora, ainda que)"},
+      {t:"Final", d:"Indica o objetivo (para que, a fim de que)"},
+      {t:"Temporal", d:"Indica o tempo (quando, assim que, enquanto)"}
+    ],
+    ex:[
+      {q:"Cite três características da crônica.",
+       s:["<b>1.</b> Pense na origem do assunto.","<b>2.</b> E no tamanho e na linguagem do texto."],
+       ans:"Ex.: parte de um fato do cotidiano, é um texto curto e tem linguagem leve, próxima da conversa (também poucos personagens e olhar pessoal do autor)."},
+      {q:"Além de fazer rir, qual pode ser outro objetivo da crônica de humor?",
+       s:["<b>1.</b> Pense no que o humor revela sobre a sociedade.","<b>2.</b> O leitor ri e depois..."],
+       ans:"Criticar comportamentos, costumes ou problemas sociais e levar o leitor a refletir."},
+      {q:"Explique o que é quebra de expectativa e por que ela é usada nas crônicas de humor.",
+       s:["<b>1.</b> O texto conduz o leitor a esperar algo.","<b>2.</b> O que acontece no final?"],
+       ans:"É quando o desfecho é diferente do que o leitor esperava; a surpresa provoca o riso."},
+      {q:"Identifique o recurso de humor: “Meu irmão demora tanto no banho que a conta de água chega antes de ele sair.”",
+       s:["<b>1.</b> A situação é possível na realidade?","<b>2.</b> Ela foi aumentada propositalmente."],
+       ans:"Exagero (hipérbole)."},
+      {q:"Classifique a oração destacada: “<em>Como estava atrasado</em>, peguei um táxi.”",
+       s:["<b>1.</b> “Como” está no início da frase.","<b>2.</b> Ela explica o motivo de pegar o táxi."],
+       ans:"Subordinada adverbial causal."},
+      {q:"Classifique: “Fiz o bolo <em>conforme a receita mandava</em>.”",
+       s:["<b>1.</b> “Conforme” indica acordo.","<b>2.</b> Pode ser trocado por “segundo”."],
+       ans:"Subordinada adverbial conformativa."},
+      {q:"Classifique: “Saí cedo <em>para que não pegasse trânsito</em>.”",
+       s:["<b>1.</b> A oração mostra o objetivo de sair cedo.","<b>2.</b> “Para que” = “a fim de que”."],
+       ans:"Subordinada adverbial final."},
+      {q:"Classifique: “<em>À medida que subíamos a montanha</em>, o ar ficava mais frio.”",
+       s:["<b>1.</b> Os dois fatos aumentam juntos.","<b>2.</b> “À medida que” indica essa relação."],
+       ans:"Subordinada adverbial proporcional."},
+      {q:"Reescreva usando uma oração concessiva: “Estava chovendo, mas o jogo continuou.”",
+       s:["<b>1.</b> A ideia de oposição se mantém.","<b>2.</b> Use “embora” ou “ainda que” (o verbo vai para o subjuntivo)."],
+       ans:"Ex.: “Embora estivesse chovendo, o jogo continuou.”"},
+      {q:"Diferencie: (a) “Ganhou o prêmio porque treinou muito.” (b) “Treinou tanto que ganhou o prêmio.”",
+       s:["<b>1.</b> Em (a), a oração explica o motivo.","<b>2.</b> Em (b), aparece “tanto... que”."],
+       ans:"(a) causal (indica a causa); (b) consecutiva (indica a consequência)."}
+    ]
+  },
+
+  /* ---------------- GEOGRAFIA ---------------- */
+  {
+    id:"geo", nome:"Geografia", em:"🌏", acc:"var(--geo)", dow:"Qua", dt:"14/10",
+    desc:"Ásia (aspectos naturais, população e economia) e China (economia, energia, meio ambiente e comércio mundial).",
+    resumo:[
+      {t:"Ásia: localização e regiões", h:[
+        "A <k>Ásia</k> é o <b>maior continente</b> do planeta, com cerca de 44 milhões de km² (aproximadamente 30% das terras emersas). Fica quase toda nos hemisférios <b>Norte</b> e <b>Oriental</b>.",
+        "Forma com a Europa uma única massa de terra, a <b>Eurásia</b>. O limite convencional entre os dois continentes passa pelos <b>Montes Urais</b>, pelo rio Ural, pelo mar Cáspio e pelos montes do Cáucaso.",
+        "Costuma ser dividida em regiões: <b>Oriente Médio</b> (Ásia Ocidental), <b>Ásia Central</b>, <b>Sul da Ásia</b> (Índia e vizinhos), <b>Sudeste Asiático</b>, <b>Extremo Oriente</b> (China, Japão, Coreias) e <b>Ásia Setentrional</b> (a Sibéria, que pertence à Rússia)."
+      ]},
+      {t:"Aspectos naturais: relevo e hidrografia", h:[
+        "<b>Relevo</b>: a Ásia tem as montanhas mais altas do mundo, na cordilheira do <k>Himalaia</k>, onde fica o <b>Everest</b> (8.849 m). Ao norte do Himalaia está o <b>Planalto do Tibete</b>, o “teto do mundo”. Há também grandes planícies, como a Siberiana.",
+        "O ponto mais baixo das terras emersas também está na Ásia: o <b>mar Morto</b>, cerca de 430 m abaixo do nível do mar.",
+        "No leste e no sudeste, países como Japão, Indonésia e Filipinas ficam no <b>Círculo de Fogo do Pacífico</b>, área de encontro de placas tectônicas com muitos <b>vulcões, terremotos e tsunamis</b>.",
+        "<b>Hidrografia</b>: rio <b>Yangtzé</b> (Azul), o maior da Ásia, e rio <b>Huang He</b> (Amarelo), na China; <b>Ganges</b> (sagrado para os hindus) e Indo, no Sul da Ásia; Mekong, no Sudeste; <b>Tigre e Eufrates</b>, no Oriente Médio, onde surgiu a Mesopotâmia; e os rios siberianos Ob, Ienissei e Lena, que correm para o oceano Glacial Ártico. O <b>mar Cáspio</b> é o maior lago do mundo."
+      ]},
+      {t:"Aspectos naturais: clima, vegetação e monções", h:[
+        "Por ser enorme, a Ásia tem <b>quase todos os tipos de clima</b>: polar e frio na Sibéria (com <b>tundra</b> e <b>taiga</b>), temperado no leste da China, na Coreia e no Japão, <b>desértico</b> no Oriente Médio (Arábia) e na Ásia Central (deserto de Gobi), tropical e equatorial no Sudeste Asiático (florestas tropicais da Indonésia e da Malásia) e frio de montanha no Himalaia.",
+        "<k>Monções</k> são ventos que mudam de direção conforme a estação, típicos do Sul e do Sudeste da Ásia.",
+        "<b>Monção de verão</b>: sopra do oceano para o continente, trazendo <b>chuvas intensas</b>. É essencial para o cultivo do <b>arroz</b>, mas pode causar enchentes.",
+        "<b>Monção de inverno</b>: sopra do continente para o oceano e traz <b>tempo seco</b>.",
+        "A vida de bilhões de pessoas depende do ritmo das monções: atrasos ou excessos de chuva podem causar quebras de safra ou inundações."
+      ]},
+      {t:"População da Ásia", h:[
+        "A Ásia é o <b>continente mais populoso</b>: reúne cerca de <b>60% da população mundial</b>. A <b>Índia</b> se tornou o país mais populoso do mundo em 2023, ultrapassando a <b>China</b>; cada um tem mais de 1,4 bilhão de habitantes.",
+        "A população é <b>mal distribuída</b>. Há áreas muito povoadas, como os vales e as planícies dos grandes rios (Ganges, leste da China), o litoral e o Japão, e <b>vazios demográficos</b>, como a Sibéria, os desertos e as altas montanhas do Tibete.",
+        "Lá estão muitas das maiores <b>megacidades</b> do mundo: Tóquio, Délhi, Xangai, Mumbai, Daca e Pequim. A urbanização cresce rapidamente, com forte êxodo rural.",
+        "<b>Diversidade cultural</b>: a Ásia é o berço das grandes religiões — hinduísmo, budismo, judaísmo, cristianismo e islamismo — e de filosofias como o confucionismo. A Indonésia é o país com mais muçulmanos do mundo.",
+        "<b>Dinâmicas</b>: Japão, Coreia do Sul e China enfrentam o <b>envelhecimento da população</b> (na China, a política do filho único vigorou de 1979 a 2015), enquanto a Índia tem população jovem."
+      ]},
+      {t:"Economia da Ásia", h:[
+        "A economia asiática é muito <b>diversa</b>. Há países ricos e muito industrializados (<b>Japão, Coreia do Sul, Singapura</b>), grandes economias emergentes (<b>China, Índia, Indonésia</b>), países pobres (Afeganistão, Nepal, Bangladesh) e países ricos em <b>petróleo</b> no golfo Pérsico (Arábia Saudita, Irã, Iraque, Kuwait, Emirados Árabes Unidos).",
+        "<b>Japão</b>: reconstruído após a Segunda Guerra, tornou-se potência em tecnologia, robótica, eletrônicos e automóveis.",
+        "<k>Tigres Asiáticos</k> (Coreia do Sul, Taiwan, Singapura e Hong Kong): a partir dos anos 1960 e 1970 industrializaram-se rapidamente, produzindo para <b>exportação</b> e investindo muito em <b>educação e tecnologia</b>. Depois vieram os “novos tigres”, como Malásia, Tailândia, Indonésia e Vietnã.",
+        "<b>Índia</b>: destaca-se em <b>serviços de tecnologia da informação</b> (Bangalore é chamada de “Vale do Silício indiano”) e na indústria farmacêutica, mas ainda tem grande pobreza.",
+        "<b>Agricultura</b>: o <b>arroz</b> é a base da alimentação; China, Índia e Indonésia são grandes produtores. É comum o cultivo intensivo em pequenas áreas e em <b>terraços</b> nas encostas. Hoje a Ásia é o centro mais dinâmico da economia mundial."
+      ]},
+      {t:"China: dinâmica econômica", h:[
+        "Em 1949, com a revolução liderada por <b>Mao Tsé-tung</b>, foi criada a República Popular da China, um país <b>socialista</b> governado pelo Partido Comunista.",
+        "A partir de <b>1978</b>, com <b>Deng Xiaoping</b>, a China fez reformas e abriu sua economia ao mercado e ao capital estrangeiro, mantendo o controle político do Partido Comunista. Esse modelo é chamado de <k>socialismo de mercado</k> (ou economia socialista de mercado).",
+        "Foram criadas as <k>Zonas Econômicas Especiais (ZEEs)</k>, a partir de 1980, no litoral (como Shenzhen). Nelas, empresas estrangeiras recebiam incentivos fiscais, infraestrutura e mão de obra barata, muitas vezes em sociedade com empresas chinesas (<i>joint ventures</i>).",
+        "Por décadas a economia cresceu perto de 10% ao ano, e a China se tornou a <b>segunda maior economia do mundo</b> e a “fábrica do mundo”.",
+        "<b>Desigualdades</b>: o <b>litoral</b> (leste) é rico e industrializado, e o <b>interior</b> (oeste) é mais pobre e rural, o que gera grandes migrações internas. Hoje o país investe em tecnologia (celulares, carros elétricos, inteligência artificial), no consumo interno e na <b>Nova Rota da Seda</b> (2013), com obras de infraestrutura em dezenas de países."
+      ]},
+      {t:"China: energia e questões ambientais", h:[
+        "A China é a <b>maior consumidora de energia</b> e a <b>maior emissora de gases de efeito estufa</b> do mundo.",
+        "Sua matriz energética depende muito do <k>carvão mineral</k>, que é muito poluente. Isso causa <b>poluição do ar</b> (o “smog” em grandes cidades, como Pequim) e <b>chuva ácida</b>.",
+        "Outros problemas: poluição dos rios, falta de água no norte do país e <b>desertificação</b>. Para conter o avanço do deserto de Gobi, o governo planta um enorme cinturão de árvores, a “Grande Muralha Verde”.",
+        "A usina de <k>Três Gargantas</k>, no rio Yangtzé, é a maior hidrelétrica do mundo em capacidade. Ela gera energia limpa, mas sua construção alagou cidades e sítios arqueológicos, deslocou mais de 1 milhão de pessoas e causou impactos ambientais.",
+        "Ao mesmo tempo, a China é hoje a <b>maior investidora em energias renováveis</b>: lidera a produção de energia <b>solar</b> e <b>eólica</b> e de <b>carros elétricos</b>, e tem a meta de atingir a neutralidade de carbono até 2060."
+      ]},
+      {t:"China no comércio mundial", h:[
+        "A entrada da China na <b>Organização Mundial do Comércio (OMC)</b>, em 2001, impulsionou suas exportações. Hoje ela é o <b>maior exportador do mundo</b>.",
+        "<b>Exporta</b>: produtos industrializados, como eletrônicos, máquinas, roupas, brinquedos, painéis solares e carros elétricos. <b>Importa</b>: matérias-primas e alimentos, como petróleo, minério de ferro e soja.",
+        "Desde 2009, a China é o <k>maior parceiro comercial do Brasil</k>. O Brasil vende principalmente <b>soja, minério de ferro, petróleo e carne</b> e compra <b>produtos industrializados</b> (eletrônicos, máquinas, componentes).",
+        "O crescimento chinês gerou <b>disputas comerciais</b>, principalmente com os Estados Unidos, que desde 2018 aplicam tarifas sobre produtos chineses (a chamada “guerra comercial”).",
+        "A China também investe muito no exterior: compra empresas e financia portos, ferrovias e usinas na Ásia, na África e na América Latina, ampliando sua influência mundial."
+      ]}
+    ],
+    quiz:[
+      {q:"Onde fica o monte Everest, o ponto mais alto do planeta?", o:["Nos Andes","No Himalaia","Nos Montes Urais","No Planalto Siberiano"], a:1,
+       e:"O Everest (8.849 m) fica na cordilheira do Himalaia."},
+      {q:"O que são as monções?", o:["Rios temporários","Ventos que mudam de direção conforme a estação","Terremotos submarinos","Desertos frios"], a:1,
+       e:"As monções trazem chuvas intensas no verão e tempo seco no inverno, no Sul e Sudeste da Ásia."},
+      {q:"Qual é hoje o país mais populoso do mundo?", o:["China","Indonésia","Índia","Japão"], a:2,
+       e:"A Índia ultrapassou a China em 2023."},
+      {q:"As Zonas Econômicas Especiais chinesas foram criadas para:", o:["Proteger florestas","Atrair empresas e capital estrangeiros","Abrigar a população rural","Produzir apenas alimentos"], a:1,
+       e:"Nas ZEEs, empresas estrangeiras recebiam incentivos, infraestrutura e mão de obra barata."},
+      {q:"Qual é a principal fonte de energia da China, causadora de muita poluição?", o:["Energia solar","Carvão mineral","Energia eólica","Biomassa"], a:1,
+       e:"A matriz chinesa depende muito do carvão, que polui o ar e emite gases de efeito estufa."}
+    ],
+    match:[
+      {t:"Himalaia", d:"Cordilheira com as montanhas mais altas do mundo"},
+      {t:"Monções", d:"Ventos sazonais que trazem chuvas no verão"},
+      {t:"Tigres Asiáticos", d:"Coreia do Sul, Taiwan, Singapura e Hong Kong"},
+      {t:"Zonas Econômicas Especiais", d:"Áreas chinesas com incentivos ao capital estrangeiro"},
+      {t:"Três Gargantas", d:"Maior hidrelétrica do mundo, no rio Yangtzé"}
+    ],
+    ex:[
+      {q:"Cite duas características do relevo asiático.",
+       s:["<b>1.</b> Pense nas montanhas mais altas do mundo.","<b>2.</b> E no ponto mais baixo das terras emersas."],
+       ans:"Ex.: a cordilheira do Himalaia, com o Everest, e o mar Morto, ponto mais baixo das terras emersas (também o Planalto do Tibete e o Círculo de Fogo)."},
+      {q:"Explique a importância das monções para a agricultura do Sul e do Sudeste da Ásia.",
+       s:["<b>1.</b> A monção de verão traz chuvas.","<b>2.</b> Qual cultivo precisa de muita água?"],
+       ans:"A monção de verão traz as chuvas necessárias ao cultivo de arroz; mas atrasos ou excessos podem causar perdas ou enchentes."},
+      {q:"Por que a população asiática é considerada mal distribuída?",
+       s:["<b>1.</b> Pense em áreas muito cheias.","<b>2.</b> E em áreas quase vazias."],
+       ans:"Há áreas muito povoadas (vales dos rios, litoral) e vazios demográficos (Sibéria, desertos, Tibete)."},
+      {q:"Quem são os Tigres Asiáticos e o que explica seu crescimento?",
+       s:["<b>1.</b> São quatro economias.","<b>2.</b> Pense em exportação e educação."],
+       ans:"Coreia do Sul, Taiwan, Singapura e Hong Kong; cresceram com indústrias voltadas para exportação e investimento em educação e tecnologia."},
+      {q:"Cite dois aspectos da economia da Índia.",
+       s:["<b>1.</b> Pense em tecnologia.","<b>2.</b> E nos problemas sociais."],
+       ans:"Ex.: destaque em serviços de tecnologia da informação (Bangalore) e indústria farmacêutica, convivendo com grande pobreza."},
+      {q:"O que é o “socialismo de mercado” chinês?",
+       s:["<b>1.</b> Pense nas reformas de Deng Xiaoping.","<b>2.</b> O que mudou e o que continuou igual?"],
+       ans:"Modelo em que a China abriu a economia ao mercado e ao capital estrangeiro, mas manteve o controle político do Partido Comunista."},
+      {q:"Explique a desigualdade regional dentro da China.",
+       s:["<b>1.</b> Compare o leste e o oeste.","<b>2.</b> Onde estão as indústrias?"],
+       ans:"O litoral (leste) é rico e industrializado; o interior (oeste) é mais pobre e rural, o que gera migrações internas."},
+      {q:"Cite dois problemas ambientais da China e uma ação para enfrentá-los.",
+       s:["<b>1.</b> Pense no carvão e no ar das cidades.","<b>2.</b> Lembre das energias renováveis."],
+       ans:"Ex.: poluição do ar e desertificação; ações: investimento em energia solar e eólica ou a “Grande Muralha Verde”."},
+      {q:"Quais foram os impactos da usina de Três Gargantas?",
+       s:["<b>1.</b> Pense na energia gerada.","<b>2.</b> E no que foi alagado."],
+       ans:"Gera muita energia, mas alagou cidades e sítios arqueológicos, deslocou mais de 1 milhão de pessoas e causou impactos ambientais."},
+      {q:"Como é o comércio entre Brasil e China?",
+       s:["<b>1.</b> O que o Brasil vende?","<b>2.</b> E o que compra?"],
+       ans:"A China é o maior parceiro comercial do Brasil: o Brasil exporta soja, minério de ferro, petróleo e carne e importa produtos industrializados."}
+    ]
+  },
+
+  /* ---------------- CIÊNCIAS ---------------- */
+  {
+    id:"cien", nome:"Ciências", em:"🧬", acc:"var(--cien)", dow:"Qui", dt:"15/10",
+    desc:"Teorias sobre a origem da vida, seleção artificial, especiação e ancestralidade, evidências da evolução e evolução humana.",
+    resumo:[
+      {t:"Abiogênese x biogênese", h:[
+        "Por muitos séculos acreditou-se na <k>abiogênese</k> (ou geração espontânea): a ideia de que seres vivos poderiam surgir da matéria sem vida. Acreditava-se, por exemplo, que larvas nasciam da carne podre ou que ratos surgiam de roupas sujas misturadas com trigo.",
+        "A <k>biogênese</k> defende que <b>todo ser vivo se origina de outro ser vivo</b>.",
+        "<b>Francesco Redi</b> (1668) colocou carne em frascos abertos e em frascos cobertos com gaze. As larvas só apareceram onde as moscas puderam pousar: elas vinham de <b>ovos de moscas</b>, não da carne.",
+        "<b>Needham</b> (1745) ferveu caldos e fechou os frascos; surgiram microrganismos, o que parecia apoiar a abiogênese. <b>Spallanzani</b> (1768) ferveu por mais tempo e lacrou bem os frascos: nada surgiu. Mostrou que a fervura de Needham tinha sido insuficiente."
+      ]},
+      {t:"O experimento de Pasteur", h:[
+        "Por volta de 1860, <k>Louis Pasteur</k> usou frascos com o <b>gargalo curvo, em forma de “pescoço de cisne”</b>.",
+        "Ele ferveu um caldo nutritivo dentro dos frascos. O ar podia entrar, mas os microrganismos e a poeira ficavam presos na curva do gargalo.",
+        "O caldo continuou <b>sem microrganismos</b> por muito tempo. Quando Pasteur quebrava o gargalo, o caldo logo era contaminado.",
+        "Conclusão: os microrganismos vinham do ar, de outros seres vivos, e não surgiam espontaneamente. O experimento <b>derrubou a abiogênese</b> e confirmou a biogênese."
+      ]},
+      {t:"Como a vida surgiu na Terra?", h:[
+        "A Terra tem cerca de <b>4,6 bilhões de anos</b>, e os fósseis mais antigos de seres vivos (como os estromatólitos, formados por bactérias) têm cerca de <b>3,5 bilhões de anos</b>.",
+        "<k>Evolução química</k> (hipótese de <b>Oparin e Haldane</b>, década de 1920): a atmosfera primitiva não tinha gás oxigênio livre e era formada por gases como metano, amônia, hidrogênio e vapor de água. Com a energia de descargas elétricas, radiação ultravioleta e calor vulcânico, esses gases teriam formado <b>moléculas orgânicas</b> simples, que se acumularam nos mares primitivos (a “sopa primordial”) e, ao longo de milhões de anos, deram origem às primeiras células.",
+        "Em 1953, <b>Miller e Urey</b> simularam em laboratório a atmosfera primitiva com descargas elétricas e obtiveram <b>aminoácidos</b>, moléculas que formam as proteínas. Isso reforçou a hipótese da evolução química.",
+        "<k>Panspermia</k>: hipótese de que a vida, ou as moléculas que a formaram, chegou à Terra vinda do espaço, em meteoritos ou cometas. Ela não explica como a vida surgiu, apenas de onde poderia ter vindo.",
+        "Também existem explicações <b>religiosas</b>, como o criacionismo, baseadas na fé, e não nos métodos da ciência."
+      ]},
+      {t:"Seleção natural e seleção artificial", h:[
+        "<b>Charles Darwin</b> (no livro <i>A origem das espécies</i>, 1859) e <b>Alfred Wallace</b> propuseram a <k>seleção natural</k>: os indivíduos de uma espécie são diferentes entre si; os que têm características mais vantajosas em um ambiente sobrevivem e se reproduzem mais, passando essas características aos descendentes. Quem “seleciona” é o <b>ambiente</b>.",
+        "Na <k>seleção artificial</k>, quem escolhe é o <b>ser humano</b>: ele seleciona os indivíduos com características desejadas e faz com que se reproduzam, geração após geração.",
+        "<b>Exemplos</b>: todas as raças de <b>cães</b> descendem do lobo; o <b>milho</b> foi desenvolvido a partir de uma planta selvagem chamada teosinto, no México, há cerca de 9 mil anos; <b>repolho, couve, brócolis, couve-flor e couve-de-bruxelas</b> vieram da mesma espécie de mostarda-selvagem; também foram selecionados gado leiteiro, galinhas que botam mais ovos e frutas maiores e sem sementes.",
+        "Darwin estudou a criação de <b>pombos</b> domésticos para entender como a seleção funciona.",
+        "<b>Consequências</b>: a seleção artificial aumentou a produção de alimentos, mas pode reduzir a <b>variabilidade genética</b>, deixando plantações mais vulneráveis a pragas e causando problemas de saúde em algumas raças de animais."
+      ]},
+      {t:"Especiação: como surgem novas espécies", h:[
+        "<k>Espécie</k> é um grupo de seres que podem cruzar entre si e gerar <b>descendentes férteis</b>. O cavalo e a jumenta podem gerar a mula, mas ela é estéril; por isso, cavalo e jumento são espécies diferentes.",
+        "<k>Especiação</k> é o processo de formação de novas espécies. O modo mais conhecido é o <b>alopátrico</b>, que acontece em etapas:",
+        "1) <b>Isolamento geográfico</b>: uma barreira (rio, montanha, mar, separação de continentes) divide uma população em duas.",
+        "2) Em ambientes diferentes, as duas populações sofrem <b>mutações</b> e <b>seleção natural</b> diferentes e acumulam diferenças ao longo de muitas gerações.",
+        "3) <b>Isolamento reprodutivo</b>: as diferenças ficam tão grandes que, mesmo que voltem a se encontrar, as populações não cruzam ou geram descendentes estéreis. Surgiram <b>novas espécies</b>.",
+        "Exemplo clássico: os <b>tentilhões de Galápagos</b>, aves estudadas por Darwin. Em cada ilha, os bicos se adaptaram a um tipo de alimento (sementes duras, insetos, frutos)."
+      ]},
+      {t:"Ancestralidade comum", h:[
+        "Segundo a teoria da evolução, <b>todos os seres vivos compartilham um ancestral comum</b>, muito antigo, e se diversificaram ao longo de bilhões de anos.",
+        "As relações de parentesco entre os seres vivos são representadas em <k>árvores filogenéticas</k> (ou cladogramas). Cada ramificação mostra o ponto em que dois grupos se separaram a partir de um ancestral comum.",
+        "Quanto <b>mais recente</b> for o ancestral comum entre duas espécies, <b>mais aparentadas</b> elas são.",
+        "Atenção: o ser humano <b>não descende do chimpanzé</b>. Seres humanos e chimpanzés têm um <b>ancestral comum</b> que viveu há cerca de 6 a 7 milhões de anos. Somos como “primos”, e não “netos”, dos chimpanzés."
+      ]},
+      {t:"Evidências da evolução: fósseis", h:[
+        "<k>Fósseis</k> são restos (ossos, dentes, conchas) ou vestígios (pegadas, ovos, marcas) de seres que viveram há muito tempo, preservados geralmente em <b>rochas sedimentares</b>.",
+        "Eles mostram que existiram seres que hoje estão <b>extintos</b>, como os dinossauros, e que as formas de vida mudaram ao longo do tempo.",
+        "Em geral, as camadas de rocha mais <b>profundas</b> são as mais <b>antigas</b>. A idade dos fósseis pode ser calculada por <b>datação radioativa</b>.",
+        "Alguns fósseis são <b>formas de transição</b>, com características de dois grupos: o <i>Archaeopteryx</i> tinha características de répteis (dentes, cauda óssea) e de aves (penas, asas); o <i>Tiktaalik</i> era um peixe com características que lembram as dos primeiros vertebrados terrestres."
+      ]},
+      {t:"Evidências da evolução: anatomia, embriões e DNA", h:[
+        "<k>Órgãos homólogos</k>: têm a <b>mesma origem e estrutura</b>, mas podem ter funções diferentes. O braço humano, a asa do morcego, a nadadeira da baleia e a pata do gato têm os mesmos ossos, o que indica um <b>ancestral comum</b>.",
+        "<k>Órgãos análogos</k>: têm a <b>mesma função</b>, mas <b>origens diferentes</b>, como a asa de um inseto e a asa de uma ave. Mostram adaptações semelhantes a ambientes parecidos (convergência).",
+        "<k>Órgãos vestigiais</k>: são reduzidos e têm pouca ou nenhuma função, mas eram importantes nos ancestrais. Exemplos humanos: o <b>cóccix</b> (resto de cauda), o apêndice, os dentes do siso e os músculos que movem as orelhas. Baleias e algumas cobras têm restos de ossos da bacia.",
+        "<b>Embriologia comparada</b>: no início do desenvolvimento, embriões de peixes, aves e mamíferos são muito parecidos (todos têm cauda e estruturas semelhantes a fendas na região do pescoço).",
+        "<b>Evidências moleculares</b>: quanto mais parecidos o DNA e as proteínas de duas espécies, mais próximo é o parentesco. O DNA humano é cerca de 98% a 99% semelhante ao do chimpanzé."
+      ]},
+      {t:"Evolução humana", h:[
+        "O ser humano (<i>Homo sapiens</i>) é um <b>primata</b>. A linhagem humana se separou da linhagem dos chimpanzés há cerca de 6 a 7 milhões de anos, na <b>África</b>.",
+        "Características que marcam a evolução humana: o <k>bipedalismo</k> (andar sobre dois pés, o que liberou as mãos), o <b>aumento do cérebro</b>, o polegar opositor e a habilidade manual, a redução da face e dos dentes, a fabricação de <b>ferramentas</b>, o uso do <b>fogo</b>, a <b>linguagem</b> e a cultura.",
+        "<b><i>Australopithecus</i></b> (cerca de 4 a 2 milhões de anos, África): já eram bípedes, mas tinham cérebro pequeno. O fóssil mais famoso é “Lucy”, com cerca de 3,2 milhões de anos, encontrado na Etiópia.",
+        "<b><i>Homo habilis</i></b> (cerca de 2,4 a 1,4 milhão de anos): fabricava as primeiras ferramentas de pedra. <b><i>Homo erectus</i></b> (a partir de cerca de 1,9 milhão de anos): o primeiro a sair da África e a usar o fogo.",
+        "<b><i>Homo neanderthalensis</i></b> (cerca de 400 mil a 40 mil anos, Europa e Ásia): enterrava os mortos e chegou a cruzar com o <i>Homo sapiens</i>.",
+        "<b><i>Homo sapiens</i></b>: surgiu na África há cerca de 300 mil anos e se espalhou pelo mundo. A evolução humana <b>não foi uma linha reta</b>: foi como um arbusto com vários ramos, e algumas espécies viveram na mesma época. Hoje só existe uma espécie humana. No Brasil, “<b>Luzia</b>”, encontrada em Lagoa Santa (MG), tem cerca de 11 mil anos e é um dos fósseis humanos mais antigos das Américas."
+      ]}
+    ],
+    quiz:[
+      {q:"O experimento com frascos de “pescoço de cisne” que derrubou a abiogênese foi feito por:", o:["Redi","Darwin","Pasteur","Lamarck"], a:2,
+       e:"Pasteur mostrou que o caldo fervido só se contaminava quando os microrganismos do ar podiam entrar."},
+      {q:"Qual é um exemplo de seleção artificial?", o:["A formação dos bicos dos tentilhões","As diferentes raças de cães, todas originadas do lobo","A extinção dos dinossauros","A formação de fósseis"], a:1,
+       e:"As raças de cães foram criadas pelo ser humano, que escolheu os cruzamentos."},
+      {q:"Na especiação alopátrica, o primeiro passo costuma ser:", o:["O isolamento geográfico","A extinção da espécie","A fossilização","A fotossíntese"], a:0,
+       e:"Uma barreira geográfica separa a população; depois, as diferenças se acumulam até o isolamento reprodutivo."},
+      {q:"O braço humano e a asa do morcego, com os mesmos ossos, são órgãos:", o:["Análogos","Vestigiais","Homólogos","Artificiais"], a:2,
+       e:"Têm a mesma origem e estrutura, com funções diferentes: são homólogos e indicam ancestral comum."},
+      {q:"Qual afirmação sobre a evolução humana está correta?", o:["O ser humano descende do chimpanzé","Seres humanos e chimpanzés têm um ancestral comum","A evolução humana foi uma linha reta","O Homo sapiens surgiu na Europa"], a:1,
+       e:"Humanos e chimpanzés compartilham um ancestral comum que viveu há cerca de 6 a 7 milhões de anos, na África."}
+    ],
+    match:[
+      {t:"Biogênese", d:"Todo ser vivo se origina de outro ser vivo"},
+      {t:"Seleção artificial", d:"O ser humano escolhe quem se reproduz"},
+      {t:"Especiação", d:"Processo de formação de novas espécies"},
+      {t:"Órgãos vestigiais", d:"Estruturas reduzidas, como o cóccix"},
+      {t:"Bipedalismo", d:"Andar sobre dois pés, marca da linhagem humana"}
+    ],
+    ex:[
+      {q:"Diferencie abiogênese e biogênese.",
+       s:["<b>1.</b> Uma defende a geração espontânea.","<b>2.</b> A outra diz que a vida vem de outra vida."],
+       ans:"Abiogênese: seres vivos surgiriam da matéria sem vida. Biogênese: todo ser vivo se origina de outro ser vivo."},
+      {q:"Descreva o experimento de Redi e sua conclusão.",
+       s:["<b>1.</b> Frascos com carne, uns abertos e outros cobertos com gaze.","<b>2.</b> Onde apareceram as larvas?"],
+       ans:"Só apareceram larvas nos frascos onde as moscas pousaram; ele concluiu que as larvas vinham de ovos de moscas, e não da carne."},
+      {q:"Por que o experimento de Pasteur foi decisivo contra a abiogênese?",
+       s:["<b>1.</b> O gargalo curvo deixava o ar entrar.","<b>2.</b> Mas os microrganismos ficavam presos na curva."],
+       ans:"O caldo fervido continuou estéril mesmo em contato com o ar e só se contaminou quando o gargalo foi quebrado, provando que os microrganismos vinham do ambiente."},
+      {q:"Explique a hipótese da evolução química e o experimento de Miller e Urey.",
+       s:["<b>1.</b> Pense na atmosfera primitiva e nas fontes de energia.","<b>2.</b> O que Miller e Urey obtiveram?"],
+       ans:"Gases da atmosfera primitiva, com energia de raios e radiação, formaram moléculas orgânicas que originaram as primeiras células; Miller e Urey simularam essas condições e obtiveram aminoácidos."},
+      {q:"Qual é a diferença entre seleção natural e seleção artificial?",
+       s:["<b>1.</b> Pense em quem faz a seleção em cada caso.","<b>2.</b> Ambiente ou ser humano?"],
+       ans:"Na seleção natural, o ambiente favorece os mais adaptados; na artificial, o ser humano escolhe as características e os cruzamentos."},
+      {q:"Cite dois exemplos de seleção artificial.",
+       s:["<b>1.</b> Pense em animais domésticos.","<b>2.</b> E em vegetais que comemos."],
+       ans:"Ex.: raças de cães (do lobo) e o milho (do teosinto) — também repolho, brócolis e couve-flor da mesma espécie selvagem."},
+      {q:"Explique as etapas da especiação por isolamento geográfico.",
+       s:["<b>1.</b> Uma barreira separa a população.","<b>2.</b> As populações mudam em ambientes diferentes.","<b>3.</b> Por fim, não conseguem mais gerar descendentes férteis."],
+       ans:"Isolamento geográfico → acúmulo de diferenças por mutações e seleção natural → isolamento reprodutivo e formação de novas espécies."},
+      {q:"Diferencie órgãos homólogos e análogos, com um exemplo de cada.",
+       s:["<b>1.</b> Homólogos têm a mesma origem.","<b>2.</b> Análogos têm a mesma função."],
+       ans:"Homólogos: mesma origem e estrutura, funções diferentes (braço humano e asa do morcego). Análogos: mesma função, origens diferentes (asa de inseto e asa de ave)."},
+      {q:"Como os fósseis servem de evidência da evolução?",
+       s:["<b>1.</b> Mostram seres que não existem mais.","<b>2.</b> Alguns têm características de dois grupos."],
+       ans:"Mostram seres extintos, mudanças nas formas de vida ao longo do tempo e formas de transição, como o Archaeopteryx."},
+      {q:"Cite três características importantes na evolução humana.",
+       s:["<b>1.</b> Pense na forma de andar.","<b>2.</b> No cérebro e no uso de ferramentas."],
+       ans:"Ex.: bipedalismo, aumento do cérebro e fabricação de ferramentas (também uso do fogo e linguagem)."}
+    ]
+  },
+
+  /* ---------------- MATEMÁTICA ---------------- */
+  {
+    id:"mat", nome:"Matemática", em:"➗", acc:"var(--mat)", dow:"Qui", dt:"15/10",
+    desc:"Função afim e linear (domínio, imagem, coeficientes, gráfico e zeros) e ângulos entre paralelas cortadas por uma transversal.",
+    resumo:[
+      {t:"Noção de função", h:[
+        "<k>Função</k> é uma relação entre duas grandezas em que <b>cada valor da primeira corresponde a um único valor da segunda</b>.",
+        "Ex.: o preço a pagar depende da quantidade de pães. Se cada pão custa R$ 0,80, o preço y é dado por <b>y = 0,8x</b>. Dizemos que “y é função de x”.",
+        "x é a <b>variável independente</b> (escolhemos o valor); y é a <b>variável dependente</b> (seu valor depende de x).",
+        "Usamos a notação <b>f(x)</b> (lê-se “f de x”) no lugar de y. f(3) é o valor da função quando x = 3."
+      ]},
+      {t:"Diagrama de flechas", h:[
+        "Podemos representar uma relação entre dois conjuntos, A e B, com flechas que saem dos elementos de A e chegam aos de B.",
+        "A relação é uma <b>função de A em B</b> quando: 1) <b>todo</b> elemento de A tem flecha saindo dele; e 2) cada elemento de A tem <b>uma única</b> flecha.",
+        "<b>Não é função</b> se algum elemento de A ficar sem flecha ou tiver duas ou mais flechas.",
+        "Os elementos de B podem receber várias flechas ou nenhuma — isso não impede de ser função."
+      ]},
+      {t:"Domínio, contradomínio e imagem", h:[
+        "<k>Domínio (D)</k>: o conjunto de partida, A — os valores que x pode assumir.",
+        "<k>Contradomínio (CD)</k>: o conjunto de chegada, B.",
+        "<k>Imagem (Im)</k>: os elementos de B que <b>recebem flecha</b>. A imagem está contida no contradomínio.",
+        "Ex.: A = {1, 2, 3}, B = {2, 3, 4, 5, 6, 7} e f(x) = 2x + 1. Então f(1) = 3, f(2) = 5 e f(3) = 7. Logo: D = {1, 2, 3}; CD = {2, 3, 4, 5, 6, 7}; <b>Im = {3, 5, 7}</b>."
+      ]},
+      {t:"Função afim: lei de formação", h:[
+        "<k>Função afim</k> é toda função do tipo <b>f(x) = ax + b</b>, com a e b números reais e a ≠ 0. A fórmula é a <b>lei de formação</b>.",
+        "Ex.: uma corrida de táxi custa R$ 5,00 de bandeirada mais R$ 2,50 por km. Lei: <b>f(x) = 2,5x + 5</b>. Para 10 km: f(10) = 25 + 5 = <b>R$ 30,00</b>.",
+        "<b>Achar f(x) dado x</b>: em f(x) = 3x − 2, f(4) = 12 − 2 = 10. <b>Achar x dado f(x)</b>: se f(x) = 13, então 3x − 2 = 13 → 3x = 15 → x = 5.",
+        "<b>Achar a lei a partir de dois pontos</b>: se a reta passa por (1, 5) e (3, 9), então a = (9 − 5) ÷ (3 − 1) = 2. Substituindo (1, 5): 5 = 2 · 1 + b → b = 3. Lei: <b>f(x) = 2x + 3</b>."
+      ]},
+      {t:"Coeficiente angular e coeficiente linear", h:[
+        "<k>Coeficiente angular (a)</k>: indica a <b>taxa de variação</b> — quanto y muda quando x aumenta 1 unidade. Também indica a <b>inclinação</b> da reta.",
+        "Se <b>a &gt; 0</b>, a função é <b>crescente</b>: a reta sobe da esquerda para a direita. Se <b>a for negativo</b>, a função é <b>decrescente</b>: a reta desce.",
+        "<k>Coeficiente linear (b)</k>: é o valor de y quando x = 0. É o ponto onde a reta <b>corta o eixo y</b>: o ponto (0, b).",
+        "Ex.: em f(x) = −2x + 6, temos a = −2 (decrescente) e b = 6 (a reta corta o eixo y no ponto (0, 6))."
+      ]},
+      {t:"Gráfico da função afim", h:[
+        "O gráfico de uma função afim é sempre uma <b>reta</b>. Por isso, bastam <b>dois pontos</b> para desenhá-lo.",
+        "Passos: 1) escolha dois valores de x; 2) calcule os valores de y; 3) marque os pares (x, y) no plano cartesiano; 4) trace a reta que passa por eles.",
+        "Ex.: f(x) = 2x + 1 → para x = 0, y = 1; para x = 2, y = 5. Marque (0, 1) e (2, 5) e trace a reta.",
+        "Lembre: no par ordenado (x, y), o primeiro número fica no eixo horizontal (x) e o segundo no eixo vertical (y)."
+      ]},
+      {t:"Zero (ou raiz) da função afim", h:[
+        "O <k>zero</k> (ou raiz) da função é o valor de x que torna <b>f(x) = 0</b>.",
+        "No gráfico, é o ponto onde a reta <b>corta o eixo x</b>: o ponto (x, 0).",
+        "Para calcular, iguale a zero: ax + b = 0 → <b>x = −b/a</b>.",
+        "Ex.: f(x) = 2x − 8 → 2x − 8 = 0 → 2x = 8 → x = 4. A reta corta o eixo x em (4, 0). Ex.: f(x) = −3x + 6 → −3x + 6 = 0 → x = 2."
+      ]},
+      {t:"Função linear e proporcionalidade direta", h:[
+        "<k>Função linear</k> é um caso especial da função afim em que <b>b = 0</b>: <b>f(x) = ax</b>. Seu gráfico é uma reta que <b>passa pela origem</b> (0, 0).",
+        "Na função linear, x e y são <b>diretamente proporcionais</b>: a razão y/x é sempre igual a a, a <b>constante de proporcionalidade</b>. Se x dobra, y também dobra.",
+        "Ex.: se 1 kg de arroz custa R$ 6,00, então f(x) = 6x. 2 kg custam R$ 12,00; 4 kg custam R$ 24,00.",
+        "Atenção: uma função afim com b diferente de zero <b>não é proporcional</b>. No exemplo do táxi, 2 km não custam o dobro de 1 km, por causa da bandeirada."
+      ]},
+      {t:"Retas paralelas cortadas por uma transversal", h:[
+        "Quando duas retas <b>paralelas</b> (r e s) são cortadas por uma reta <b>transversal</b> (t), formam-se <b>8 ângulos</b>: 4 em cada ponto de cruzamento.",
+        "Os ângulos <b>internos</b> ficam entre as paralelas; os <b>externos</b> ficam fora delas.",
+        "Em cada cruzamento, ângulos <b>opostos pelo vértice</b> são iguais, e ângulos <b>adjacentes</b> (lado a lado na mesma reta) somam 180°.",
+        "As relações a seguir só valem quando as duas retas são <b>paralelas</b>."
+      ]},
+      {t:"Ângulos correspondentes e alternos", h:[
+        "<k>Correspondentes</k>: ocupam a <b>mesma posição</b> em cada cruzamento (por exemplo, os dois acima da reta e à direita da transversal). São <b>congruentes</b> (iguais). Formam uma figura parecida com a letra “F”.",
+        "<k>Alternos internos</k>: ficam <b>entre as paralelas</b>, em <b>lados opostos</b> da transversal. São <b>congruentes</b>. Formam uma figura parecida com a letra “Z”.",
+        "<k>Alternos externos</k>: ficam <b>fora das paralelas</b>, em lados opostos da transversal. Também são <b>congruentes</b>."
+      ]},
+      {t:"Ângulos colaterais", h:[
+        "<k>Colaterais internos</k>: ficam <b>entre as paralelas</b>, do <b>mesmo lado</b> da transversal. São <b>suplementares</b>: somam <b>180°</b>. Formam uma figura parecida com a letra “U” (ou “C”).",
+        "<k>Colaterais externos</k>: ficam <b>fora das paralelas</b>, do mesmo lado da transversal. Também são <b>suplementares</b> (somam 180°).",
+        "<b>Resumo</b>: são <b>iguais</b> os correspondentes, os alternos internos, os alternos externos e os opostos pelo vértice. <b>Somam 180°</b> os colaterais internos, os colaterais externos e os adjacentes."
+      ]},
+      {t:"Equações com ângulos entre paralelas", h:[
+        "1) Identifique a relação entre os ângulos; 2) se forem congruentes, <b>iguale</b> as expressões; se forem suplementares, <b>some e iguale a 180°</b>; 3) resolva a equação; 4) substitua x para encontrar os ângulos.",
+        "<b>Correspondentes</b>: 3x + 10° e 70° → 3x + 10 = 70 → 3x = 60 → <b>x = 20°</b>.",
+        "<b>Alternos internos</b>: 5x − 20° e 3x + 40° → 5x − 3x = 40 + 20 → 2x = 60 → <b>x = 30°</b>. Os dois ângulos medem 130°.",
+        "<b>Colaterais internos</b>: 2x e x + 30° → 2x + x + 30 = 180 → 3x = 150 → <b>x = 50°</b>. Os ângulos medem 100° e 80° (100 + 80 = 180 ✓)."
+      ]}
+    ],
+    quiz:[
+      {q:"Em um diagrama de flechas, a relação de A em B NÃO é função quando:", o:["Um elemento de B recebe duas flechas","Um elemento de A tem duas flechas","Todos os elementos de A têm uma flecha","Sobram elementos em B"], a:1,
+       e:"Para ser função, cada elemento de A deve ter exatamente uma flecha."},
+      {q:"Se f(x) = 2x + 3, quanto vale f(4)?", o:["9","11","14","8"], a:1,
+       e:"f(4) = 2 · 4 + 3 = 8 + 3 = 11."},
+      {q:"Na função f(x) = −5x + 2, a função é:", o:["Crescente, pois b é positivo","Decrescente, pois a é negativo","Constante","Linear"], a:1,
+       e:"O coeficiente angular a = −5 é negativo, então a função é decrescente."},
+      {q:"Qual é o zero da função f(x) = 3x − 12?", o:["−4","12","4","3"], a:2,
+       e:"3x − 12 = 0 → 3x = 12 → x = 4."},
+      {q:"Dois ângulos colaterais internos entre retas paralelas são:", o:["Sempre iguais","Suplementares (somam 180°)","Complementares (somam 90°)","Sempre retos"], a:1,
+       e:"Colaterais internos (e externos) somam 180°."}
+    ],
+    match:[
+      {t:"Domínio", d:"Conjunto de partida da função"},
+      {t:"Imagem", d:"Elementos do contradomínio que recebem flecha"},
+      {t:"Coeficiente linear (b)", d:"Ponto onde a reta corta o eixo y"},
+      {t:"Zero da função", d:"Valor de x que faz f(x) = 0"},
+      {t:"Alternos internos", d:"Entre as paralelas, lados opostos: são iguais"}
+    ],
+    ex:[
+      {q:"A = {1, 2, 3} e B = {a, b, c}. As flechas são: 1 → a, 2 → b, 2 → c, 3 → a. A relação é uma função? Justifique.",
+       s:["<b>1.</b> Verifique quantas flechas saem de cada elemento de A.","<b>2.</b> O elemento 2 tem duas flechas."],
+       ans:"Não é função, porque o elemento 2 tem duas flechas (cada elemento de A deve ter uma única)."},
+      {q:"Seja f: A → B, com A = {0, 1, 2}, B = {2, 3, 4, 5, 6} e f(x) = x + 3. Determine o domínio, o contradomínio e a imagem.",
+       s:["<b>1.</b> f(0) = 3, f(1) = 4, f(2) = 5.","<b>2.</b> A imagem são os valores obtidos."],
+       ans:"D = {0, 1, 2}; CD = {2, 3, 4, 5, 6}; Im = {3, 4, 5}."},
+      {q:"Dada f(x) = 4x − 5: (a) calcule f(3); (b) encontre x para que f(x) = 11.",
+       s:["<b>1.</b> (a) 4 · 3 − 5 = 12 − 5.","<b>2.</b> (b) 4x − 5 = 11 → 4x = 16."],
+       ans:"(a) f(3) = 7; (b) x = 4."},
+      {q:"Um táxi cobra R$ 4,50 de bandeirada mais R$ 2,00 por km. Escreva a lei da função e calcule o preço de uma corrida de 12 km.",
+       s:["<b>1.</b> Parte fixa = b = 4,50; parte variável = 2 por km.","<b>2.</b> f(12) = 2 · 12 + 4,50."],
+       ans:"f(x) = 2x + 4,50; uma corrida de 12 km custa R$ 28,50."},
+      {q:"Na função f(x) = −3x + 9, identifique a e b, diga se é crescente ou decrescente e onde a reta corta o eixo y.",
+       s:["<b>1.</b> a é o número que multiplica x; b é o termo independente.","<b>2.</b> Observe o sinal de a."],
+       ans:"a = −3 e b = 9; é decrescente; corta o eixo y no ponto (0, 9)."},
+      {q:"Calcule o zero da função f(x) = 5x − 20 e indique o ponto onde a reta corta o eixo x.",
+       s:["<b>1.</b> 5x − 20 = 0 → 5x = 20.","<b>2.</b> O ponto tem y = 0."],
+       ans:"x = 4; ponto (4, 0)."},
+      {q:"Encontre a lei da função afim cujo gráfico passa pelos pontos (1, 4) e (3, 10).",
+       s:["<b>1.</b> a = (10 − 4) ÷ (3 − 1) = 6 ÷ 2 = 3.","<b>2.</b> 4 = 3 · 1 + b → b = 1."],
+       ans:"f(x) = 3x + 1."},
+      {q:"Um caderno custa R$ 12,00. Escreva a função do preço de x cadernos, calcule o preço de 5 cadernos e diga se as grandezas são proporcionais.",
+       s:["<b>1.</b> Não há parte fixa: b = 0.","<b>2.</b> f(5) = 12 · 5."],
+       ans:"f(x) = 12x (função linear); 5 cadernos custam R$ 60,00; sim, são diretamente proporcionais (o gráfico passa pela origem)."},
+      {q:"Duas paralelas são cortadas por uma transversal. Dois ângulos alternos internos medem 4x − 10° e 2x + 30°. Encontre x e os ângulos.",
+       s:["<b>1.</b> Alternos internos são iguais: 4x − 10 = 2x + 30.","<b>2.</b> 2x = 40 → x = 20."],
+       ans:"x = 20°; os dois ângulos medem 70°."},
+      {q:"Dois ângulos colaterais internos medem 3x + 20° e 2x + 10°. Encontre x e os ângulos.",
+       s:["<b>1.</b> Colaterais internos somam 180°: 3x + 20 + 2x + 10 = 180.","<b>2.</b> 5x + 30 = 180 → 5x = 150 → x = 30."],
+       ans:"x = 30°; os ângulos medem 110° e 70°."}
+    ]
+  },
+
+  /* ---------------- HISTÓRIA ---------------- */
+  {
+    id:"hist", nome:"História", em:"🏛️", acc:"var(--hist)", dow:"Sex", dt:"16/10",
+    desc:"Golpe civil-militar de 1964 e terrorismo de Estado, apoio e resistência, redemocratização e as ditaduras na Argentina e no Chile.",
+    resumo:[
+      {t:"O contexto do golpe de 1964", h:[
+        "O mundo vivia a <b>Guerra Fria</b>, a disputa entre os Estados Unidos (capitalistas) e a União Soviética (socialista). Depois da Revolução Cubana (1959), cresceu nas Américas o <b>medo do comunismo</b>.",
+        "<b>João Goulart (Jango)</b> assumiu a presidência em 1961, após a renúncia de Jânio Quadros, mesmo com a resistência de parte dos militares. A <b>Campanha da Legalidade</b>, liderada por Leonel Brizola, ajudou a garantir sua posse.",
+        "Jango propôs as <k>reformas de base</k>: reforma agrária, urbana, educacional, eleitoral (com voto para analfabetos) e limitação do envio de lucros de empresas estrangeiras ao exterior.",
+        "Em 13 de março de 1964, no <b>Comício da Central do Brasil</b>, ele defendeu as reformas. Setores conservadores reagiram com a <b>Marcha da Família com Deus pela Liberdade</b> (19 de março).",
+        "Opunham-se a Jango grandes empresários, latifundiários, parte da Igreja, da imprensa e da classe média, os militares e o governo dos <b>Estados Unidos</b>, que chegou a deixar navios de prontidão (Operação Brother Sam)."
+      ]},
+      {t:"O golpe civil-militar", h:[
+        "Entre <b>31 de março e 1º de abril de 1964</b>, tropas saíram de Minas Gerais em direção ao Rio de Janeiro. Jango deixou Brasília e, dias depois, foi para o exílio no Uruguai. O Congresso declarou vaga a presidência enquanto ele ainda estava no Brasil.",
+        "É chamado de golpe <k>civil-militar</k> porque, além dos militares, contou com a participação e o apoio de setores civis: empresários, políticos, parte da imprensa e da sociedade.",
+        "A <b>ditadura</b> durou 21 anos (1964–1985). Os presidentes eram generais escolhidos em <b>eleições indiretas</b>: Castello Branco, Costa e Silva, uma junta militar, Médici, Geisel e Figueiredo."
+      ]},
+      {t:"Os Atos Institucionais", h:[
+        "Os <k>Atos Institucionais (AIs)</k> eram decretos do governo militar que estavam acima da Constituição.",
+        "<b>AI-1</b> (1964): permitiu cassar mandatos e suspender direitos políticos de opositores.",
+        "<b>AI-2</b> (1965): extinguiu os partidos e criou o <b>bipartidarismo</b>: a <b>ARENA</b>, partido do governo, e o <b>MDB</b>, uma oposição permitida e vigiada. Estabeleceu eleições indiretas para presidente.",
+        "<k>AI-5</k> (13 de dezembro de 1968): o mais duro. Permitiu fechar o Congresso, cassar mandatos, suspender o <b>habeas corpus</b> para crimes políticos e impor <b>censura</b> à imprensa e às artes. Começavam os “<b>anos de chumbo</b>” (1968–1974), período de maior repressão, sobretudo no governo Médici."
+      ]},
+      {t:"O terrorismo de Estado", h:[
+        "<k>Terrorismo de Estado</k> é quando o próprio Estado usa a violência, o medo e o terror contra a sua população para eliminar opositores e calar a sociedade.",
+        "Durante a ditadura houve <b>prisões sem ordem judicial, tortura, assassinatos, desaparecimentos forçados, exílio e censura</b>.",
+        "Órgãos de repressão: o <b>SNI</b> (serviço de informações), o <b>DOPS</b> e o <b>DOI-CODI</b>, centros de interrogatório e tortura.",
+        "Casos conhecidos: o deputado <b>Rubens Paiva</b> (1971), cuja história foi contada no filme <i>Ainda estou aqui</i>; o jornalista <b>Vladimir Herzog</b> (1975); e o operário Manoel Fiel Filho (1976).",
+        "A <b>Comissão Nacional da Verdade</b> (2014) reconheceu <b>434 mortos e desaparecidos</b> políticos, além de milhares de pessoas torturadas e de graves violações contra povos indígenas e camponeses."
+      ]},
+      {t:"O “milagre econômico” e o apoio à ditadura", h:[
+        "Entre 1968 e 1973 ocorreu o chamado <k>milagre econômico</k>: a economia cresceu cerca de 10% ao ano, com grandes obras, como a Ponte Rio-Niterói, a Transamazônica e a usina de Itaipu, financiadas em grande parte com <b>empréstimos externos</b>.",
+        "O governo usou muita <b>propaganda</b> ufanista (“Brasil, ame-o ou deixe-o”) e aproveitou a conquista da Copa de 1970.",
+        "Mas o crescimento <b>concentrou renda</b>: os salários foram achatados, a desigualdade aumentou e a <b>dívida externa</b> cresceu. Com as crises do petróleo (1973 e 1979), vieram inflação alta e recessão.",
+        "<b>Apoio à ditadura</b>: grandes empresários (alguns financiaram a repressão), proprietários rurais, parte da imprensa, da classe média e, no início, da Igreja, além da ARENA e do governo dos EUA. O “milagre” também garantiu apoio de parte da população."
+      ]},
+      {t:"A resistência à ditadura", h:[
+        "<b>Oposição política</b>: o <b>MDB</b>, partido de oposição legal, que cresceu nas eleições a partir de 1974.",
+        "<b>Movimento estudantil</b>: a UNE passou a atuar na ilegalidade. Em 1968, a <b>Passeata dos Cem Mil</b>, no Rio de Janeiro, reuniu estudantes, artistas, intelectuais e religiosos.",
+        "<b>Cultura</b>: festivais de música e <b>canções de protesto</b>, como “Pra não dizer que não falei das flores”, de Geraldo Vandré, e “Cálice” e “Apesar de você”, de Chico Buarque; a Tropicália (Caetano Veloso e Gilberto Gil, que foram exilados); o teatro, o Cinema Novo e jornais alternativos, como <i>O Pasquim</i>. Muitos artistas foram censurados.",
+        "<b>Luta armada</b>: grupos de esquerda, como a ALN (Carlos Marighella) e a VPR (Carlos Lamarca), fizeram guerrilha urbana e sequestraram embaixadores para trocar por presos políticos. A <b>Guerrilha do Araguaia</b> (1972–1974) ocorreu no Pará. Todos foram duramente reprimidos.",
+        "<b>Igreja e sociedade civil</b>: religiosos como D. Paulo Evaristo Arns e D. Hélder Câmara denunciaram a tortura; familiares de presos e desaparecidos se organizaram; e, no fim dos anos 1970, as <b>greves operárias do ABC paulista</b>, lideradas por Lula, desafiaram o regime."
+      ]},
+      {t:"A redemocratização", h:[
+        "O presidente <b>Geisel</b> (1974–1979) anunciou uma “<b>abertura lenta, gradual e segura</b>”. O AI-5 foi revogado e deixou de valer em 1979.",
+        "No governo <b>Figueiredo</b>, a <k>Lei da Anistia</k> (1979) permitiu a volta dos exilados e libertou presos políticos. Mas também anistiou os agentes do Estado que torturaram e mataram, o que é motivo de debate até hoje. No mesmo ano, terminou o bipartidarismo e surgiram novos partidos (PMDB, PDS, PT, PDT, PTB).",
+        "Em 1982 houve eleições diretas para governador. Em 1983 e 1984, o movimento <k>Diretas Já</k> levou milhões de pessoas às ruas, pedindo eleições diretas para presidente. A emenda Dante de Oliveira, porém, foi <b>rejeitada</b> pelo Congresso em 1984.",
+        "Em janeiro de 1985, o Colégio Eleitoral elegeu indiretamente <b>Tancredo Neves</b>, de oposição. Ele adoeceu e morreu antes da posse, e assumiu o vice, <b>José Sarney</b>, em 15 de março de 1985: fim da ditadura e início da Nova República.",
+        "A <k>Constituição de 1988</k>, chamada de “Constituição Cidadã”, garantiu direitos civis, políticos e sociais, criou o SUS, tornou a tortura crime inafiançável e estendeu o voto aos analfabetos e aos jovens de 16 e 17 anos. Em 1989 ocorreu a primeira eleição direta para presidente desde 1960."
+      ]},
+      {t:"Ditaduras na América Latina e a Operação Condor", h:[
+        "Nas décadas de 1960 e 1970, vários países da América Latina viveram ditaduras militares: Brasil, Argentina, Chile, Uruguai, Paraguai e Bolívia, entre outros.",
+        "Elas seguiam a <b>Doutrina de Segurança Nacional</b>, que via os opositores como “inimigos internos” a serem eliminados, e contavam com o apoio dos Estados Unidos no contexto da Guerra Fria.",
+        "A <k>Operação Condor</k> foi uma aliança entre as ditaduras do Cone Sul, nos anos 1970, para trocar informações e perseguir, sequestrar e matar opositores mesmo fora das fronteiras de seus países."
+      ]},
+      {t:"A ditadura no Chile", h:[
+        "Em 1970, o socialista <b>Salvador Allende</b> foi eleito presidente pelo voto. Seu governo nacionalizou as minas de <b>cobre</b> e fez reforma agrária, mas enfrentou crise econômica, forte oposição interna e boicote dos Estados Unidos.",
+        "Em <b>11 de setembro de 1973</b>, um golpe militar liderado pelo general <k>Augusto Pinochet</k> bombardeou o palácio de La Moneda. Allende morreu durante o ataque.",
+        "A repressão foi brutal: o <b>Estádio Nacional</b> de Santiago foi usado como centro de prisão e tortura; mais de 3 mil pessoas foram mortas ou desaparecidas, e dezenas de milhares foram torturadas. O cantor Víctor Jara foi assassinado.",
+        "Pinochet adotou uma política econômica liberal. Em 1988, um <b>plebiscito</b> rejeitou sua permanência no poder (venceu o “Não”), e em 1990 o Chile voltou a ter um presidente civil eleito."
+      ]},
+      {t:"A ditadura na Argentina", h:[
+        "Em <b>24 de março de 1976</b>, os militares deram um golpe e instalaram uma junta chefiada pelo general <b>Jorge Videla</b>, no chamado “Processo de Reorganização Nacional”.",
+        "Foi uma das ditaduras mais violentas da região. Organizações de direitos humanos estimam <b>30 mil desaparecidos</b>. Havia centros clandestinos de tortura, como a ESMA, e os “voos da morte”, em que presos eram jogados no mar. Bebês de presas políticas foram tirados das mães e entregues a outras famílias.",
+        "<b>Resistência</b>: as <k>Mães da Praça de Maio</k>, com lenços brancos na cabeça, marchavam toda semana diante da sede do governo exigindo saber onde estavam seus filhos. As <b>Avós da Praça de Maio</b> buscam até hoje os netos sequestrados e já encontraram mais de 130.",
+        "A ditadura usou a Copa do Mundo de 1978 como propaganda. A derrota na <b>Guerra das Malvinas</b> (1982), contra o Reino Unido, enfraqueceu o regime, e em 1983 houve eleições.",
+        "Em 1985, o <b>Julgamento das Juntas</b> condenou os principais chefes militares. Diferentemente do Brasil, onde a Lei da Anistia impediu punições, a Argentina julgou e condenou os responsáveis pelos crimes da ditadura."
+      ]}
+    ],
+    quiz:[
+      {q:"Qual Ato Institucional, de 1968, foi o mais duro da ditadura, permitindo fechar o Congresso e suspender o habeas corpus?", o:["AI-1","AI-2","AI-5","AI-3"], a:2,
+       e:"O AI-5 inaugurou os “anos de chumbo”, com censura, cassações e suspensão do habeas corpus para crimes políticos."},
+      {q:"O bipartidarismo criado pelo AI-2 era formado por:", o:["PT e PSDB","ARENA e MDB","UDN e PSD","PMDB e PDS"], a:1,
+       e:"A ARENA era o partido do governo, e o MDB, a oposição permitida."},
+      {q:"O movimento de 1983–1984 que levou milhões às ruas pedindo eleições para presidente foi:", o:["Passeata dos Cem Mil","Diretas Já","Marcha da Família","Campanha da Legalidade"], a:1,
+       e:"As Diretas Já pediam eleições diretas, mas a emenda Dante de Oliveira foi rejeitada em 1984."},
+      {q:"Quem liderou o golpe que derrubou Salvador Allende no Chile, em 1973?", o:["Jorge Videla","Augusto Pinochet","Alfredo Stroessner","Fidel Castro"], a:1,
+       e:"O general Augusto Pinochet comandou o golpe de 11 de setembro de 1973."},
+      {q:"As Mães da Praça de Maio, na Argentina, ficaram conhecidas por:", o:["Apoiar a junta militar","Exigir notícias dos filhos desaparecidos","Organizar a Copa de 1978","Lutar na Guerra das Malvinas"], a:1,
+       e:"Elas marchavam toda semana diante da sede do governo exigindo saber o paradeiro dos filhos."}
+    ],
+    match:[
+      {t:"AI-5", d:"Ato de 1968 que inaugurou os anos de chumbo"},
+      {t:"Diretas Já", d:"Movimento por eleições diretas para presidente (1983–1984)"},
+      {t:"Lei da Anistia (1979)", d:"Volta dos exilados e perdão também aos torturadores"},
+      {t:"Operação Condor", d:"Aliança das ditaduras do Cone Sul contra opositores"},
+      {t:"Mães da Praça de Maio", d:"Mães que exigiam notícias dos desaparecidos na Argentina"}
+    ],
+    ex:[
+      {q:"Explique por que o golpe de 1964 é chamado de “civil-militar”.",
+       s:["<b>1.</b> Quem executou o golpe?","<b>2.</b> Quem mais participou e apoiou?"],
+       ans:"Porque foi executado pelos militares, mas teve participação e apoio de setores civis, como empresários, políticos, parte da imprensa e da sociedade."},
+      {q:"O que eram as reformas de base de João Goulart? Cite duas.",
+       s:["<b>1.</b> Eram mudanças sociais e econômicas propostas por Jango.","<b>2.</b> Pense na terra e no voto."],
+       ans:"Propostas de mudanças estruturais; ex.: reforma agrária e reforma eleitoral (voto dos analfabetos)."},
+      {q:"Quais foram as principais medidas do AI-5?",
+       s:["<b>1.</b> Pense no Congresso e nos mandatos.","<b>2.</b> E nos direitos e na imprensa."],
+       ans:"Permitiu fechar o Congresso, cassar mandatos, suspender o habeas corpus para crimes políticos e impor censura."},
+      {q:"O que é terrorismo de Estado? Dê exemplos de como ocorreu no Brasil.",
+       s:["<b>1.</b> Quem pratica a violência é o próprio Estado.","<b>2.</b> Pense em tortura e desaparecimentos."],
+       ans:"É o uso da violência e do medo pelo Estado contra a própria população; ex.: tortura, prisões arbitrárias, assassinatos e desaparecimentos de opositores."},
+      {q:"Explique o que foi o “milagre econômico” e uma de suas consequências negativas.",
+       s:["<b>1.</b> Pense no crescimento da economia entre 1968 e 1973.","<b>2.</b> Quem ganhou com ele?"],
+       ans:"Período de grande crescimento econômico com obras financiadas por empréstimos; consequências: concentração de renda e aumento da dívida externa."},
+      {q:"Cite três formas de resistência à ditadura no Brasil.",
+       s:["<b>1.</b> Pense em estudantes, artistas e políticos.","<b>2.</b> E em grupos armados e trabalhadores."],
+       ans:"Ex.: movimento estudantil (Passeata dos Cem Mil), músicas de protesto e oposição do MDB (também luta armada e greves do ABC)."},
+      {q:"Por que a Lei da Anistia (1979) é polêmica até hoje?",
+       s:["<b>1.</b> Quem ela beneficiou além dos exilados e presos políticos?","<b>2.</b> Os torturadores foram punidos?"],
+       ans:"Porque também anistiou os agentes do Estado que torturaram e mataram, impedindo que fossem julgados."},
+      {q:"Explique o movimento Diretas Já e seu resultado.",
+       s:["<b>1.</b> O que o movimento pedia?","<b>2.</b> O que aconteceu com a emenda Dante de Oliveira?"],
+       ans:"Grandes manifestações em 1983–1984 pedindo eleições diretas para presidente; a emenda foi rejeitada, e o presidente de 1985 foi eleito indiretamente."},
+      {q:"Como ocorreu o golpe no Chile e quais foram suas consequências?",
+       s:["<b>1.</b> Quem governava e quem liderou o golpe?","<b>2.</b> Pense na repressão."],
+       ans:"Em 1973, Pinochet derrubou o presidente eleito Salvador Allende; seguiu-se forte repressão, com milhares de mortos, desaparecidos e torturados."},
+      {q:"Compare como Brasil e Argentina lidaram com os crimes de suas ditaduras.",
+       s:["<b>1.</b> Lembre do Julgamento das Juntas.","<b>2.</b> Lembre da Lei da Anistia brasileira."],
+       ans:"A Argentina julgou e condenou os chefes militares (1985); no Brasil, a Lei da Anistia impediu a punição dos agentes da repressão."}
+    ]
+  }
+];
+/* =========================================================
+   NÍVEIS / PATENTES
+   ========================================================= */
+var RANKS = [
+  {min:0,    nome:"Iniciante",  em:"🌱"},
+  {min:120,  nome:"Aprendiz",   em:"📗"},
+  {min:280,  nome:"Explorador", em:"🧭"},
+  {min:480,  nome:"Estudioso",  em:"📚"},
+  {min:720,  nome:"Craque",     em:"⭐"},
+  {min:1000, nome:"Mestre",     em:"🏆"}
+];
+function rankFor(xp){
+  var r = RANKS[0];
+  for(var i=0;i<RANKS.length;i++){ if(xp >= RANKS[i].min) r = RANKS[i]; }
+  return r;
+}
+function nextRank(xp){
+  for(var i=0;i<RANKS.length;i++){ if(xp < RANKS[i].min) return RANKS[i]; }
+  return null;
+}
+
+/* =========================================================
+   ESTADO + PERSISTÊNCIA
+   ========================================================= */
+var STORE_KEY = "rev9ano_t3_v1";
+var state = { xp:0, streak:0, best:0, done:{}, answers:{}, selfcheck:{} };
+
+function freshDone(){ var o={}; SUBJECTS.forEach(function(s){ o[s.id]={resumo:false,quiz:false,match:false,ex:false}; }); return o; }
+function loadState(){
+  try{ var raw=localStorage.getItem(STORE_KEY); if(raw) state=JSON.parse(raw); }catch(e){}
+  if(!state.done) state.done={};
+  SUBJECTS.forEach(function(s){ if(!state.done[s.id]) state.done[s.id]={resumo:false,quiz:false,match:false,ex:false}; });
+  if(typeof state.xp!=="number") state.xp=0;
+  if(typeof state.streak!=="number") state.streak=0;
+  if(typeof state.best!=="number") state.best=0;
+  if(!state.answers) state.answers={};
+  if(!state.selfcheck) state.selfcheck={};
+}
+function saveState(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+function wipeState(){
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  state={ xp:0, streak:0, best:0, done:freshDone(), answers:{}, selfcheck:{} };
+  saveState();
+}
+
+function subjProgress(id){
+  var d=state.done[id], k=["resumo","quiz","match","ex"], c=0;
+  k.forEach(function(x){ if(d[x]) c++; }); return Math.round(c/4*100);
+}
+function isMaster(id){ return subjProgress(id)===100; }
+
+function addXP(n,msg,isXpToast){
+  var beforeRank=rankFor(state.xp).nome;
+  state.xp+=n; saveState(); renderStatus();
+  var afterRank=rankFor(state.xp).nome;
+  if(msg) toast(msg, isXpToast);
+  if(afterRank!==beforeRank){
+    setTimeout(function(){ toast("Nova patente: "+rankFor(state.xp).em+" "+afterRank+"!", true); burstConfetti(70); }, 700);
+  }
+}
+function bumpStreak(){
+  state.streak++; if(state.streak>state.best) state.best=state.streak;
+  var bonus=0;
+  if(state.streak===3) bonus=5; else if(state.streak===5) bonus=10; else if(state.streak>0 && state.streak%10===0) bonus=20;
+  saveState(); renderStatus(); pulseFlame();
+  if(bonus){ addXP(bonus, "🔥 Sequência de "+state.streak+"! +"+bonus+" XP bônus", true); }
+}
+function breakStreak(){ state.streak=0; saveState(); renderStatus(); }
+
+function markDone(id,part){
+  if(!state.done[id][part]){
+    state.done[id][part]=true; saveState();
+    renderCards(); renderWeek();
+    if(isMaster(id)) celebrateSubject(id);
+  }
+}
+
+/* =========================================================
+   RENDER — HERO / STATUS / SEMANA / CARDS
+   ========================================================= */
+var elWeek=document.getElementById("week");
+var elCards=document.getElementById("cards");
+var elHome=document.getElementById("home");
+var elSubjView=document.getElementById("subjectView");
+
+function shortName(n){ return n.replace("Língua Portuguesa","Português"); }
+
+function renderStatus(){
+  var r=rankFor(state.xp), nx=nextRank(state.xp);
+  document.getElementById("lvlEmb").textContent=r.em;
+  document.getElementById("lvlRank").textContent=r.nome;
+  var fill=document.getElementById("lvlFill");
+  if(nx){
+    var span=nx.min-r.min, into=state.xp-r.min;
+    fill.style.width=Math.min(100,Math.round(into/span*100))+"%";
+    document.getElementById("lvlSub").textContent=state.xp+" XP · faltam "+(nx.min-state.xp)+" p/ "+nx.nome;
+  }else{
+    fill.style.width="100%";
+    document.getElementById("lvlSub").textContent=state.xp+" XP · patente máxima!";
+  }
+  document.getElementById("streakNum").textContent=state.streak;
+}
+function pulseFlame(){
+  var f=document.getElementById("flame"); f.classList.add("pulse");
+  setTimeout(function(){ f.classList.remove("pulse"); },220);
+}
+
+function renderWeek(){
+  var html="";
+  SUBJECTS.forEach(function(s){
+    var p=subjProgress(s.id), m=isMaster(s.id)?" master":"";
+    html+='<button class="day'+m+'" data-id="'+s.id+'">'
+      +'<span class="medal">🥇</span>'
+      +'<div class="dow">'+s.dow+'</div><div class="dt">'+s.dt+'</div>'
+      +'<div class="em">'+s.em+'</div><div class="nm">'+shortName(s.nome)+'</div>'
+      +'<div class="mini"><i style="width:'+p+'%"></i></div></button>';
+  });
+  elWeek.innerHTML=html;
+  Array.prototype.forEach.call(elWeek.querySelectorAll(".day"),function(b){
+    b.addEventListener("click",function(){ openSubject(b.getAttribute("data-id")); });
+  });
+}
+
+function renderCards(){
+  var html="";
+  SUBJECTS.forEach(function(s){
+    var p=subjProgress(s.id), m=isMaster(s.id)?" master":"";
+    html+='<div class="card'+m+'" data-id="'+s.id+'" style="--acc:'+s.acc+'">'
+      +'<div class="stripe"></div>'
+      +'<div class="top"><span class="badge">'+s.dow+' · '+s.dt+'</span><span class="em">'+s.em+'</span></div>'
+      +'<span class="medal">🥇</span>'
+      +'<h3>'+shortName(s.nome)+'</h3>'
+      +'<p class="desc">'+s.desc+'</p>'
+      +'<div class="ring-row"><div class="ring" style="--p:'+p+'; --acc:'+s.acc+'"><span>'+p+'%</span></div>'
+      +'<span class="go">'+(isMaster(s.id)?"Revisar de novo →":"Revisar →")+'</span></div></div>';
+  });
+  elCards.innerHTML=html;
+  Array.prototype.forEach.call(elCards.querySelectorAll(".card"),function(c){
+    c.addEventListener("click",function(){ openSubject(c.getAttribute("data-id")); });
+  });
+}
+
+/* =========================================================
+   VISTA DA MATÉRIA
+   ========================================================= */
+function openSubject(id){
+  var s=SUBJECTS.filter(function(x){return x.id===id;})[0]; if(!s) return;
+  elHome.style.display="none";
+  elSubjView.innerHTML=buildSubject(s);
+  wireSubject(s);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function closeSubject(){
+  elSubjView.innerHTML=""; elHome.style.display="block";
+  renderCards(); renderWeek();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function withKeys(str){ return str.replace(/<k>/g,'<span class="key">').replace(/<\/k>/g,'</span>'); }
+function tick(id,part){ return state.done[id][part]?'<span class="tick">✓</span>':''; }
+
+function buildSubject(s){
+  var h='<div class="subject active" style="--accV:'+s.acc+'">';
+  h+='<div class="backbar"><button class="back" id="btnBack">← Todas as matérias</button></div>';
+  h+='<div class="subj-head"><span class="em">'+s.em+'</span><div><h2>'+s.nome+'</h2><div class="u">Prova: '+s.dow+' · '+s.dt+'</div></div></div>';
+
+  h+='<div class="medal-banner" id="medalBanner"><div class="big">🥇</div><div class="t">Medalha conquistada!</div><div class="s">Você completou as 4 atividades desta matéria.</div></div>';
+
+  h+='<div class="tabs">'
+    +'<button class="tab on" data-p="resumo">Resumo'+tick(s.id,"resumo")+'</button>'
+    +'<button class="tab" data-p="quiz">Quiz'+tick(s.id,"quiz")+'</button>'
+    +'<button class="tab" data-p="match">Ligar'+tick(s.id,"match")+'</button>'
+    +'<button class="tab" data-p="ex">Exercícios'+tick(s.id,"ex")+'</button></div>';
+
+  /* RESUMO */
+  h+='<div class="pane on" data-pane="resumo">';
+  s.resumo.forEach(function(r){
+    h+='<div class="note"><h4>'+r.t+'</h4>';
+    r.h.forEach(function(p){ h+='<p>'+withKeys(p)+'</p>'; });
+    h+='</div>';
+  });
+  h+='<div class="done-flag show" style="border-style:solid">Terminou de ler? <button class="reveal" id="resumoDone" style="margin-left:8px">Marcar resumo como revisado</button></div>';
+  h+='</div>';
+
+  /* QUIZ */
+  h+='<div class="pane" data-pane="quiz">';
+  h+='<div class="scorebar">🎯 <span id="quizScore">Acertos: 0 de '+s.quiz.length+'</span></div>';
+  s.quiz.forEach(function(q,i){
+    h+='<div class="q" data-qi="'+i+'"><div class="qn">Questão '+(i+1)+'</div><div class="qt">'+q.q+'</div><div class="opts">';
+    q.o.forEach(function(op,j){ h+='<button class="opt" data-j="'+j+'"><span class="l">'+String.fromCharCode(65+j)+'</span><span>'+op+'</span></button>'; });
+    h+='</div><div class="explain"><b>Por quê:</b> '+q.e+'</div></div>';
+  });
+  h+='<div class="done-flag" data-flag="quiz">Quiz concluído! 🎯</div></div>';
+
+  /* MATCH */
+  h+='<div class="pane" data-pane="match">';
+  h+='<p class="match-help">Toque num <b>termo</b> à esquerda e depois na <b>definição</b> certa à direita. Cada acerto vale XP; erro zera sua sequência 🔥.</p>';
+  h+='<div class="match"><div class="col terms"><h4>Termos</h4><div data-terms></div></div><div class="col defs"><h4>Definições</h4><div data-defs></div></div></div>';
+  h+='<div class="done-flag" data-flag="match">Tudo ligado corretamente! 🔗</div></div>';
+
+  /* EX */
+  h+='<div class="pane" data-pane="ex">';
+  s.ex.forEach(function(x,i){
+    var saved=(state.answers[s.id]&&state.answers[s.id][i])?state.answers[s.id][i]:"";
+    h+='<div class="ex"><div class="en">Exercício '+(i+1)+'</div><div class="et">'+x.q+'</div>';
+    h+='<div class="ans-label">Sua resposta<span class="ans-saved" data-saved="'+i+'">salvo ✓</span></div>';
+    h+='<textarea class="ans-field" data-ans="'+i+'" placeholder="Escreva aqui sua resposta antes de conferir...">'+escapeHtml(saved)+'</textarea>';
+    h+='<div class="ex-actions"><button class="reveal" data-rev="'+i+'">Conferir resolução</button></div>';
+    h+='<div class="sol" data-sol="'+i+'">';
+    x.s.forEach(function(st){ h+='<p class="step">'+st+'</p>'; });
+    h+='<div class="ans">✓ Resposta: '+x.ans+'</div></div>';
+    h+='<div class="selfcheck" data-sc="'+i+'"><span class="lbl">Como você foi?</span>'
+      +'<button class="sc-btn good" data-scv="good">Acertei 😄</button>'
+      +'<button class="sc-btn soso" data-scv="soso">Vou revisar 📌</button></div>';
+    h+='</div>';
+  });
+  h+='<div class="done-flag" data-flag="ex">Exercícios revisados! ✏️</div></div>';
+
+  h+='</div>';
+  return h;
+}
+function escapeHtml(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* =========================================================
+   INTERAÇÕES
+   ========================================================= */
+function wireSubject(s){
+  var root=elSubjView;
+  root.querySelector("#btnBack").addEventListener("click",closeSubject);
+  if(isMaster(s.id)) root.querySelector("#medalBanner").classList.add("show");
+
+  var tabs=root.querySelectorAll(".tab"), panes=root.querySelectorAll(".pane");
+  Array.prototype.forEach.call(tabs,function(t){
+    t.addEventListener("click",function(){
+      Array.prototype.forEach.call(tabs,function(x){x.classList.remove("on");});
+      Array.prototype.forEach.call(panes,function(x){x.classList.remove("on");});
+      t.classList.add("on");
+      root.querySelector('[data-pane="'+t.getAttribute("data-p")+'"]').classList.add("on");
+    });
+  });
+
+  var rd=root.querySelector("#resumoDone");
+  if(state.done[s.id].resumo){ rd.textContent="Revisado ✓"; rd.disabled=true; }
+  rd.addEventListener("click",function(){
+    if(!state.done[s.id].resumo){ markDone(s.id,"resumo"); addXP(40,"+40 XP · resumo revisado",true); }
+    this.textContent="Revisado ✓"; this.disabled=true; refreshTicks(s,root);
+  });
+
+  wireQuiz(s,root);
+  wireMatch(s,root);
+  wireEx(s,root);
+}
+function refreshTicks(s,root){
+  var map={resumo:0,quiz:1,match:2,ex:3}, tabs=root.querySelectorAll(".tab");
+  ["resumo","quiz","match","ex"].forEach(function(p,i){
+    var t=tabs[i]; var has=t.querySelector(".tick");
+    if(state.done[s.id][p] && !has){ t.insertAdjacentHTML("beforeend",'<span class="tick">✓</span>'); }
+  });
+  if(isMaster(s.id)) root.querySelector("#medalBanner").classList.add("show");
+}
+
+function wireQuiz(s,root){
+  var answered={}, hits=0;
+  var scoreEl=root.querySelector("#quizScore");
+  var qs=root.querySelectorAll('[data-pane="quiz"] .q');
+  Array.prototype.forEach.call(qs,function(qEl){
+    var qi=parseInt(qEl.getAttribute("data-qi"),10), correct=s.quiz[qi].a, opts=qEl.querySelectorAll(".opt");
+    Array.prototype.forEach.call(opts,function(op){
+      op.addEventListener("click",function(){
+        if(answered[qi]) return; answered[qi]=true;
+        var j=parseInt(op.getAttribute("data-j"),10);
+        Array.prototype.forEach.call(opts,function(o){o.disabled=true;});
+        if(j===correct){ op.classList.add("correct"); hits++; scoreEl.textContent="Acertos: "+hits+" de "+s.quiz.length; addXP(10,"Certo! +10 XP",true); bumpStreak(); }
+        else{ op.classList.add("wrong"); opts[correct].classList.add("correct"); breakStreak(); }
+        qEl.querySelector(".explain").classList.add("show");
+        if(Object.keys(answered).length===s.quiz.length){
+          if(!state.done[s.id].quiz){ markDone(s.id,"quiz"); addXP(20,"Quiz completo! +20 XP",true); refreshTicks(s,root); }
+          root.querySelector('[data-flag="quiz"]').classList.add("show");
+          if(hits===s.quiz.length){ addXP(15,"Gabaritou o quiz! +15 XP",true); burstConfetti(50); }
+        }
+      });
+    });
+  });
+}
+
+function wireMatch(s,root){
+  var termsBox=root.querySelector("[data-terms]"), defsBox=root.querySelector("[data-defs]");
+  var pairs=s.match, defsShuffled=shuffle(pairs.map(function(p,i){return {i:i,d:p.d};}));
+  var tHtml=""; pairs.forEach(function(p,i){ tHtml+='<button class="chip" data-term="'+i+'">'+p.t+'</button>'; });
+  var dHtml=""; defsShuffled.forEach(function(o){ dHtml+='<button class="chip" data-def="'+o.i+'">'+o.d+'</button>'; });
+  termsBox.innerHTML=tHtml; defsBox.innerHTML=dHtml;
+  var selTerm=null, solved=0;
+  function clearSel(){ if(selTerm){ selTerm.classList.remove("sel"); selTerm=null; } }
+  Array.prototype.forEach.call(termsBox.querySelectorAll(".chip"),function(b){
+    b.addEventListener("click",function(){ if(b.classList.contains("done"))return; clearSel(); selTerm=b; b.classList.add("sel"); });
+  });
+  Array.prototype.forEach.call(defsBox.querySelectorAll(".chip"),function(b){
+    b.addEventListener("click",function(){
+      if(b.classList.contains("done"))return;
+      if(!selTerm){ toast("Escolha primeiro um termo à esquerda"); return; }
+      if(selTerm.getAttribute("data-term")===b.getAttribute("data-def")){
+        selTerm.classList.remove("sel"); selTerm.classList.add("done"); b.classList.add("done"); selTerm=null; solved++;
+        addXP(8,"Ligação certa! +8 XP",true); bumpStreak();
+        if(solved===pairs.length){
+          if(!state.done[s.id].match){ markDone(s.id,"match"); addXP(16,"Todas ligadas! +16 XP",true); refreshTicks(s,root); }
+          root.querySelector('[data-flag="match"]').classList.add("show"); burstConfetti(40);
+        }
+      }else{ b.classList.add("miss"); setTimeout(function(){b.classList.remove("miss");},350); breakStreak(); clearSel(); }
+    });
+  });
+}
+
+function wireEx(s,root){
+  var revealed={};
+  // answer autosave
+  Array.prototype.forEach.call(root.querySelectorAll("[data-ans]"),function(ta){
+    var i=ta.getAttribute("data-ans");
+    ta.addEventListener("input",function(){
+      if(!state.answers[s.id]) state.answers[s.id]={};
+      state.answers[s.id][i]=ta.value; saveState();
+      var tag=root.querySelector('[data-saved="'+i+'"]'); tag.classList.add("show");
+      clearTimeout(ta._t); ta._t=setTimeout(function(){ tag.classList.remove("show"); },1200);
+    });
+  });
+  // reveal + selfcheck
+  Array.prototype.forEach.call(root.querySelectorAll("[data-rev]"),function(b){
+    b.addEventListener("click",function(){
+      var i=b.getAttribute("data-rev");
+      var sol=root.querySelector('[data-sol="'+i+'"]');
+      var open=sol.classList.toggle("show");
+      b.textContent=open?"Ocultar resolução":"Conferir resolução";
+      if(open){ revealed[i]=true; root.querySelector('[data-sc="'+i+'"]').classList.add("show"); }
+      if(Object.keys(revealed).length===s.ex.length && !state.done[s.id].ex){
+        markDone(s.id,"ex"); addXP(40,"+40 XP · exercícios concluídos",true); refreshTicks(s,root);
+        root.querySelector('[data-flag="ex"]').classList.add("show");
+      }
+    });
+  });
+  Array.prototype.forEach.call(root.querySelectorAll("[data-sc]"),function(box){
+    var i=box.getAttribute("data-sc");
+    Array.prototype.forEach.call(box.querySelectorAll(".sc-btn"),function(btn){
+      btn.addEventListener("click",function(){
+        if(!state.selfcheck[s.id]) state.selfcheck[s.id]={};
+        if(state.selfcheck[s.id][i]) return;
+        state.selfcheck[s.id][i]=btn.getAttribute("data-scv"); saveState();
+        Array.prototype.forEach.call(box.querySelectorAll(".sc-btn"),function(o){o.classList.add("picked");});
+        btn.classList.remove("picked");
+        if(btn.getAttribute("data-scv")==="good"){ addXP(5,"+5 XP pela honestidade 💪",true); }
+        else{ toast("Anotado! Volte nesse depois 📌"); }
+      });
+    });
+  });
+}
+
+/* =========================================================
+   CELEBRAÇÃO
+   ========================================================= */
+function celebrateSubject(id){
+  var s=SUBJECTS.filter(function(x){return x.id===id;})[0];
+  burstConfetti(120);
+  toast("🥇 Medalha de "+shortName(s.nome)+" conquistada!", true);
+  var banner=document.getElementById("medalBanner");
+  if(banner) banner.classList.add("show");
+}
+var CONF_COLORS=["#cdab5a","#c1533f","#2f6b5e","#6b4f9e","#2b5a8c","#f2dd97"];
+function burstConfetti(n){
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  for(var i=0;i<n;i++){ makeConfetto(); }
+}
+function makeConfetto(){
+  var d=document.createElement("div"); d.className="confetti";
+  var left=Math.random()*100;
+  d.style.left=left+"vw";
+  d.style.background=CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)];
+  d.style.transform="rotate("+(Math.random()*360)+"deg)";
+  document.body.appendChild(d);
+  var fall=900+Math.random()*900;
+  var drift=(Math.random()*160-80);
+  var rot=Math.random()*720-360;
+  var anim=d.animate(
+    [{transform:"translate(0,0) rotate(0deg)", opacity:1},
+     {transform:"translate("+drift+"px,"+(window.innerHeight+40)+"px) rotate("+rot+"deg)", opacity:.9}],
+    {duration:fall, easing:"cubic-bezier(.2,.6,.5,1)"}
+  );
+  anim.onfinish=function(){ d.remove(); };
+}
+
+/* =========================================================
+   UTILS
+   ========================================================= */
+function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+var toastTimer=null;
+function toast(msg,xp){
+  var el=document.getElementById("toast");
+  el.textContent=msg; el.className="toast show"+(xp?" xp":"");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ el.classList.remove("show"); },1700);
+}
+
+/* =========================================================
+   RESET (LIMPAR DADOS)
+   ========================================================= */
+var modalBg=document.getElementById("modalBg");
+document.getElementById("btnReset").addEventListener("click",function(){ modalBg.classList.add("show"); });
+document.getElementById("mCancel").addEventListener("click",function(){ modalBg.classList.remove("show"); });
+modalBg.addEventListener("click",function(e){ if(e.target===modalBg) modalBg.classList.remove("show"); });
+document.getElementById("mConfirm").addEventListener("click",function(){
+  wipeState(); modalBg.classList.remove("show");
+  closeSubject(); renderStatus(); renderWeek(); renderCards();
+  toast("Tudo limpo! Bons estudos 🌱");
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+loadState();
+renderStatus();
+renderWeek();
+renderCards();
+</script>
+</body>
+</html>
